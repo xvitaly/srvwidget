@@ -1,0 +1,64 @@
+* {
+border:0;
+margin:0;
+padding:0;
+}
+
+.info {
+float:left;
+width:159px;
+height:48px;
+padding:0 10px;
+}
+
+.map_name {
+font-size:14px;
+}
+
+.pic {
+float:left;
+width:48px;
+}
+
+.pic img {
+width:48px;
+height:48px;
+-webkit-border-radius:5px;
+-moz-border-radius:5px;
+border-radius:5px;
+}
+
+.players {
+font-size:14px;
+font-weight:700;
+float:right;
+}
+
+.server {
+margin-bottom:39px;
+padding-bottom:19px;
+width:230px;
+}
+
+.server_name {
+font-size:16px;
+margin-top:3px;
+white-space:nowrap;
+}
+
+a,a:visited {
+color:#1A4780;
+}
+
+a:hover {
+text-decoration:underline;
+}
+
+a:link,a:visited {
+text-decoration:none;
+}
+
+body {
+background:#f7f7f7;
+font-family:'Trebuchet MS',Helvetica,Arial,sans-serif;
+}
