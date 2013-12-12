@@ -13,7 +13,7 @@
 			</div>
 			<div class="info">
 				<div class="server_name"><a href="steam://connect/{$srv.ip}/">{$srv.hostname}</a></div>
-				<div class="players"><span style="color: {$color}">{$srv.cplayers}/{$srv.maxplayers}</span></div>
+				<div class="players"><span style="color: {$srv.color}">{$srv.cplayers}/{$srv.maxplayers}</span></div>
 				<div class="map_name">{$srv.map}</div>
 			</div>
 		</div>
