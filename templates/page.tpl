@@ -8,16 +8,16 @@
 	<div class="wrapper">
 	{foreach from=$servers item=srv}
 		{if $srv.cplayers gt 0}
-			<div class="server">
-				<div class="pic">
-					<a href="steam://connect/{$srv.ip}/"><img src="{$srv.mapimg}" alt="{$srv.map}"></a>
-				</div>
-				<div class="info">
-					<div class="server_name"><a href="steam://connect/{$srv.ip}/">{$srv.hostname}</a></div>
-					<div class="players"><span style="color: {$srv.color}">{$srv.cplayers}/{$srv.maxplayers}</span></div>
-					<div class="map_name">{$srv.map}</div>
-				</div>
+		<div class="server">
+			<div class="pic">
+				<a href="steam://connect/{$srv.ip}/"><img src="{$srv.mapimg}" alt="{$srv.map}"></a>
 			</div>
+			<div class="info">
+				<div class="server_name"><a href="steam://connect/{$srv.ip}/">{$srv.hostname}</a></div>
+				<div class="players"><span style="color: {$srv.color}">{$srv.cplayers}/{$srv.maxplayers}</span></div>
+				<div class="map_name">{$srv.map}</div>
+			</div>
+		</div>
 		{/if}
 	{/foreach}
 	</div>
