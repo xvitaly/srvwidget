@@ -1,5 +1,18 @@
 <?php
 
+/* 
+ * Simple Source engine widget.
+ * 
+ * Copyright 2013 EasyCoding Team (ECTeam).
+ * Copyright 2005 - 2014 EasyCoding Team.
+ * 
+ * License: GNU GPL version 3.
+ *
+ * EasyCoding Team's official blog: http://www.easycoding.org/
+ * Project's official webpage: http://www.easycoding.org/projects/srvwidget
+ * 
+ */
+
 class Application
 {	
 	private static $SERVERS = array('83.222.97.209:27203', '46.174.48.29:27276', '46.174.48.24:27262', '89.223.24.149:27016', '89.223.24.149:27017', '89.223.24.149:27015');
