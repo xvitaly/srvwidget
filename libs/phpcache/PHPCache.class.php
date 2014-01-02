@@ -45,7 +45,7 @@ class Cache
 	public function end()
 	{
 		$fp = @fopen($this -> cacheFile, 'w');
-		@fwrite($fp, str_replace(array("\t", "\n", "\r", "\r\n"), "", ob_get_contents()));
+		@fwrite($fp, ob_get_contents());
 		@fclose($fp);
 		ob_end_flush();
 	}
