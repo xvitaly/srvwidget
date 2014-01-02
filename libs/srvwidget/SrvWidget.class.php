@@ -31,7 +31,7 @@ class Application
 			$r['ip'] = sprintf('%s:%d', $srv[0], $srv[1]);
 			$r['map'] = $srvinfo['Map'];
 			$r['mapimg'] = self::checkMapImage($srvinfo['Map']);
-			$r['hostname'] = strlen($srvinfo['HostName']) <= 19 ? $srvinfo['HostName'] : substr($srvinfo['HostName'], 0, 19);
+			$r['hostname'] = strtoupper(strlen($srvinfo['HostName']) <= 19 ? $srvinfo['HostName'] : substr($srvinfo['HostName'], 0, 19));
 			$r['cplayers'] = $srvinfo['Players'];
 			$r['maxplayers'] = $srvinfo['MaxPlayers'];
 			$r['color'] = self::getColor($srvinfo['Players']/$srvinfo['MaxPlayers']);
