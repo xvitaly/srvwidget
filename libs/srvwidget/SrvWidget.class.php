@@ -23,9 +23,10 @@ class Application
 		return file_exists($r) ? $r : 'static/maps/unknown.png';
 	}
 	
-	private function getColor($del)
+	private function getColor($cpl, $mpl)
 	{
 		$result = '#006900';
+		$del = $mpl != 0 ? $cpl / $mpl : 0;
 		if ($del >= 0.9) { $result = '#FF0000'; } elseif (($del > 0.78) && ($del < 0.9)) { $result = '#f4c430'; }
 		return $result;
 	}
@@ -47,7 +48,7 @@ class Application
 			$r['hostname'] = strtoupper(strlen($srvinfo['HostName']) <= 19 ? $srvinfo['HostName'] : substr($srvinfo['HostName'], 0, 19));
 			$r['cplayers'] = $srvinfo['Players'];
 			$r['maxplayers'] = $srvinfo['MaxPlayers'];
-			$r['color'] = self::getColor($srvinfo['Players']/$srvinfo['MaxPlayers']);
+			$r['color'] = self::getColor($srvinfo['Players'], $srvinfo['MaxPlayers']);
 			$r['errmsg'] = null;
 		}
 		catch(Exception $e)
@@ -65,8 +66,8 @@ class Application
 		$srvs = array();
 		
 		$smarty -> setTemplateDir('templates');
-		$smarty -> setCacheDir('cache');
-		$smarty -> setCompileDir('cache/tc');
+		$smarty -> setCacheDir(sys_get_temp_dir());
+		$smarty -> setCompileDir(sys_get_temp_dir());
 		
 		foreach (self::$SERVERS as $value)
 		{

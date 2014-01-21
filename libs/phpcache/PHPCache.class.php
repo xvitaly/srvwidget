@@ -15,14 +15,12 @@
 class Cache
 {
 	const PAGE_TIME = 600;
-	const CACHE_PATH = 'cache/';
 	
 	private $cacheFile;
 	
 	public function __construct()
 	{
-		if (!is_dir(self::CACHE_PATH)) { mkdir(self::CACHE_PATH, 0755); }
-		$this -> cacheFile = self::CACHE_PATH . hash('md5', $_SERVER['REQUEST_URI']) . '.dat';
+		$this -> cacheFile = sprintf('%s/%s.dat', sys_get_temp_dir(), hash('md5', $_SERVER['REQUEST_URI']));
 	}
 	
 	public function start()
