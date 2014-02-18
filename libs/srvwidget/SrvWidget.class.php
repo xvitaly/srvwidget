@@ -33,7 +33,8 @@ class Application
 	
 	private function cleanSrvTitle($title)
 	{
-		return strtoupper(strlen($title) <= 19 ? $title : substr($title, 0, 19));
+		$title = strtoupper(strlen($title) <= 19 ? $title : substr($title, 0, 19));
+		return $title;
 	}
 	
 	private function returnServerInfo($ip)
