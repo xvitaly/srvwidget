@@ -37,7 +37,7 @@ class Application
 	{
 		$title = str_replace(array(" ", "?", "\r\n", "\r", "\n"), "", $title);
 		$title = str_replace(array("#", "|"), array(" #", " | "), $title);
-		$title = strtoupper(strlen($title) <= 19 ? $title : substr($title, 0, 19));
+		$title = strtoupper(substr($title, 0, 19));
 		return $title;
 	}
 	
@@ -53,7 +53,7 @@ class Application
 			$srvinfo = $q -> GetInfo();
 			
 			$r['ip'] = sprintf('%s:%d', $srv[0], $srv[1]);
-			$r['map'] = $srvinfo['Map'];
+			$r['map'] = substr($srvinfo['Map'], 0, 17);
 			$r['mapimg'] = self::checkMapImage($srvinfo['Map']);
 			$r['hostname'] = self::cleanSrvTitle($srvinfo['HostName']);
 			$r['cplayers'] = $srvinfo['Players'];
