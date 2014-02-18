@@ -33,6 +33,8 @@ class Application
 	
 	private function cleanSrvTitle($title)
 	{
+		$title = str_replace(array(" ", "?", "\r\n", "\r", "\n"), "", $title);
+		$title = str_replace(array("#"), array(" #"), $title);
 		$title = strtoupper(strlen($title) <= 19 ? $title : substr($title, 0, 19));
 		return $title;
 	}
