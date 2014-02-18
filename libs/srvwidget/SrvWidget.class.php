@@ -15,7 +15,8 @@
 
 class Application
 {	
-	private static $SERVERS = array('46.174.48.44:27272', '83.222.97.209:27203', '46.174.48.29:27276', '46.174.48.24:27262', '89.223.24.149:27016', '89.223.24.149:27017', '89.223.24.149:27015');
+	private static $SERVERS = array('46.174.48.44:27272', '83.222.97.209:27203', '46.174.48.29:27276', '46.174.48.24:27262', '93.191.11.90:27209', '89.223.24.149:27016', '89.223.24.149:27017', '93.191.11.90:27208', '77.241.20.23:27029', '89.223.24.149:27015');
+	private static $SHOWEMPTY = false;
 	
 	private function checkMapImage($map)
 	{
@@ -34,7 +35,7 @@ class Application
 	private function cleanSrvTitle($title)
 	{
 		$title = str_replace(array(" ", "?", "\r\n", "\r", "\n"), "", $title);
-		$title = str_replace(array("#"), array(" #"), $title);
+		$title = str_replace(array("#", "|"), array(" #", " | "), $title);
 		$title = strtoupper(strlen($title) <= 19 ? $title : substr($title, 0, 19));
 		return $title;
 	}
@@ -83,6 +84,8 @@ class Application
 		}
 		
 		$smarty -> assign('servers', $srvs);
+		$smarty -> assign('hide', self::$SHOWEMPTY);
+		
 		$smarty -> display('page.tpl');
 	}
 }

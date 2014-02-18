@@ -7,7 +7,7 @@
 <body>
 	<div class="wrapper">
 	{foreach from=$servers item=srv}
-		{if $srv.cplayers gt 0}
+		{if $hide || $srv.cplayers gt 0}
 		<div class="server">
 			<div class="pic">
 				<a href="steam://connect/{$srv.ip}/"><img src="{$srv.mapimg}" alt="{$srv.map}"></a>
