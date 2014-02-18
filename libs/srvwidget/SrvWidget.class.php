@@ -15,7 +15,8 @@
 
 class Application
 {	
-	private static $SERVERS = array('46.174.48.44:27272', '83.222.97.209:27203', '46.174.48.29:27276', '46.174.48.24:27262', '93.191.11.90:27209', '89.223.24.149:27016', '89.223.24.149:27017', '93.191.11.90:27208', '77.241.20.23:27029', '89.223.24.149:27015');
+	private static $SRVOUR = array('46.174.48.44:27272', '83.222.97.209:27203', '46.174.48.29:27276', '46.174.48.24:27262');
+	private static $SRVOTH = array('93.191.11.90:27209', '89.223.24.149:27016', '89.223.24.149:27017', '93.191.11.90:27208', '77.241.20.23:27029', '89.223.24.149:27015');
 	private static $SHOWEMPTY = false;
 	
 	private function checkMapImage($map)
@@ -78,7 +79,13 @@ class Application
 		$smarty -> setCacheDir(sys_get_temp_dir());
 		$smarty -> setCompileDir(sys_get_temp_dir());
 		
-		foreach (self::$SERVERS as $value)
+		foreach (self::$SRVOUR as $value)
+		{
+			$srvs[] = self::returnServerInfo($value);
+		}
+		
+		shuffle(self::$SRVOTH);
+		foreach (self::$SRVOTH as $value)
 		{
 			$srvs[] = self::returnServerInfo($value);
 		}
