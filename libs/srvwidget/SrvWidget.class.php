@@ -34,14 +34,7 @@ class Application
 			{
 				while ($row = $stm -> fetch_row())
 				{
-					if ($row[1] == 'OUR')
-					{
-						self::$SRVOUR[] = $row[0];
-					}
-					else
-					{
-						self::$SRVOTH[] = $row[0];
-					}
+					if ($row[1] == 'OUR') { self::$SRVOUR[] = $row[0]; } else { self::$SRVOTH[] = $row[0]; }
 				}
 				$stm -> close();
 			}
