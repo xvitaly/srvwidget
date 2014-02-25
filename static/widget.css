@@ -38,12 +38,15 @@ float:right;
 margin-bottom:39px;
 padding-bottom:19px;
 width:230px;
+cursor: pointer;
+cursor: hand;
 }
 
 .server_name {
 font-size:16px;
 margin-top:3px;
 white-space:nowrap;
+color:#1A479C;
 }
 
 a,a:visited {
