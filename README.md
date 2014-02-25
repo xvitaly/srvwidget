@@ -1,6 +1,10 @@
 Installation
 ========
-1. Import this SQL dump file:
+1. Upload all files to your web server.
+
+2. Open /libs/srvwidget/SrvWidget.class.php and set MySQL username, password and database name.
+
+3. Import this SQL dump file:
 ```
 DROP TABLE IF EXISTS `servers`;
 CREATE TABLE IF NOT EXISTS `servers` (
@@ -23,9 +27,5 @@ INSERT INTO `servers` (`ID`, `Address`, `Type`) VALUES
 (10, '89.223.24.149:27015', 'OTHER'),
 (11, '93.191.11.90:27202', 'OTHER');
 ```
-
-2. Upload all files to your web server.
-
-3. Open /libs/srvwidget/SrvWidget.class.php and set MySQL username, password and database name.
 
 4. Enjoy.
