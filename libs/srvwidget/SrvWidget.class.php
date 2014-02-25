@@ -19,37 +19,32 @@ class Application
 	const DB_NAME = 'srvwidget';
 	const DB_USER = '';
 	const DB_PASS = '';
+	const SHOWEMPTY = false;
 	
 	private static $SRVOUR = array();
 	private static $SRVOTH = array();
-	private static $SHOWEMPTY = false;
 	
 	private function fetchServersDB()
 	{
 		$mlink = new mysqli(self::DB_HOST, self::DB_USER, self::DB_PASS, self::DB_NAME);
-		
 		if (!mysqli_connect_errno())
 		{
 			$mlink -> set_charset("utf8");
-			
-			if ($stm = $mlink -> query("SELECT Address FROM servers WHERE Type = 1"))
+			if ($stm = $mlink -> query("SELECT Address, Type FROM servers ORDER BY Type ASC LIMIT 0,30"))
 			{
 				while ($row = $stm -> fetch_row())
 				{
-					self::$SRVOUR[] = $row[0];
+					if ($row[1] == 'OUR')
+					{
+						self::$SRVOUR[] = $row[0];
+					}
+					else
+					{
+						self::$SRVOTH[] = $row[0];
+					}
 				}
 				$stm -> close();
 			}
-			
-			if ($stm = $mlink -> query("SELECT Address FROM servers WHERE Type = 2"))
-			{
-				while ($row = $stm -> fetch_row())
-				{
-					self::$SRVOTH[] = $row[0];
-				}
-				$stm -> close();
-			}
-			
 			$mlink -> close();
 		}
 	}
@@ -128,7 +123,7 @@ class Application
 		}
 		
 		$smarty -> assign('servers', $srvs);
-		$smarty -> assign('hide', self::$SHOWEMPTY);
+		$smarty -> assign('hide', self::SHOWEMPTY);
 		
 		$smarty -> display('page.tpl');
 	}
