@@ -37,8 +37,12 @@ class Application
 	{
 		$title = str_replace(array(" ", "_", "?", "\r\n", "\r", "\n"), "", $title);
 		$title = str_replace(array("#", "|"), array(" #", " | "), $title);
-		$title = strtoupper(substr($title, 0, 19));
-		return $title;
+		return strtoupper($title);
+	}
+	
+	private function trimSrvTitle($title)
+	{
+		return substr($title, 0, 19);
 	}
 	
 	private function returnServerInfo($ip)
@@ -55,7 +59,8 @@ class Application
 			$r['ip'] = sprintf('%s:%d', $srv[0], $srv[1]);
 			$r['map'] = substr($srvinfo['Map'], 0, 17);
 			$r['mapimg'] = self::checkMapImage($srvinfo['Map']);
-			$r['hostname'] = self::cleanSrvTitle($srvinfo['HostName']);
+			$r['fullname'] = self::cleanSrvTitle($srvinfo['HostName']);
+			$r['hostname'] = self::trimSrvTitle($r['fullname']);
 			$r['cplayers'] = $srvinfo['Players'];
 			$r['maxplayers'] = $srvinfo['MaxPlayers'];
 			$r['color'] = self::getColor($srvinfo['Players'], $srvinfo['MaxPlayers']);
