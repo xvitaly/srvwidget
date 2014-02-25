@@ -15,9 +15,44 @@
 
 class Application
 {	
-	private static $SRVOUR = array('46.174.48.44:27272', '83.222.97.209:27203', '46.174.48.29:27276', '46.174.48.24:27262');
-	private static $SRVOTH = array('93.191.11.90:27209', '89.223.24.149:27016', '89.223.24.149:27017', '93.191.11.90:27208', '77.241.20.23:27029', '89.223.24.149:27015', '93.191.11.90:27202');
+	const DB_HOST = 'localhost';
+	const DB_NAME = 'srvwidget';
+	const DB_USER = '';
+	const DB_PASS = '';
+	
+	private static $SRVOUR = array();
+	private static $SRVOTH = array();
 	private static $SHOWEMPTY = false;
+	
+	private function fetchServersDB()
+	{
+		$mlink = new mysqli(self::DB_HOST, self::DB_USER, self::DB_PASS, self::DB_NAME);
+		
+		if (!mysqli_connect_errno())
+		{
+			$mlink -> set_charset("utf8");
+			
+			if ($stm = $mlink -> query("SELECT Address FROM servers WHERE Type = 1"))
+			{
+				while ($row = $stm -> fetch_row())
+				{
+					self::$SRVOUR[] = $row[0];
+				}
+				$stm -> close();
+			}
+			
+			if ($stm = $mlink -> query("SELECT Address FROM servers WHERE Type = 2"))
+			{
+				while ($row = $stm -> fetch_row())
+				{
+					self::$SRVOTH[] = $row[0];
+				}
+				$stm -> close();
+			}
+			
+			$mlink -> close();
+		}
+	}
 	
 	private function checkMapImage($map)
 	{
@@ -72,6 +107,8 @@ class Application
 	
 	public static function Run()
 	{
+		self::fetchServersDB();
+		
 		$smarty = new Smarty();
 		$srvs = array();
 		
