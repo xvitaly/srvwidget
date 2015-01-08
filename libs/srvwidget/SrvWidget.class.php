@@ -75,7 +75,7 @@ class Application
 			$srvinfo = $q -> GetInfo();
 			
 			$r['ip'] = sprintf('%s:%d', $srv[0], $srv[1]);
-			$r['map'] = substr($srvinfo['Map'], 0, 17);
+			$r['map'] = substr($srvinfo['Map'], 0, 15);
 			$r['mapimg'] = self::checkMapImage($srvinfo['Map']);
 			$r['fullname'] = $srvinfo['HostName'];
 			$r['hostname'] = self::cleanSrvTitle($srvinfo['HostName']);
