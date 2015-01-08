@@ -4,23 +4,38 @@
 	<title>Simple server widget by EasyCoding Team</title>
 	<link rel="stylesheet" href="static/widget.css" type="text/css" />
 	<script type="text/javascript" language="javascript" src="static/jquery.min.js"></script>
+	<script type="text/javascript" language="javascript" src="static/jquery.jcarousellite.min.js"></script>
 </head>
 <body>
 	<div class="wrapper">
-	{foreach from=$servers item=srv}
-		{if $hide || $srv.cplayers gt 0}
-		<div class="server" title="{$srv.fullname}" onclick="location.href='steam://connect/{$srv.ip}/';">
-			<div class="pic">
-				<img src="{$srv.mapimg}" alt="{$srv.map}">
-			</div>
-			<div class="info">
-				<div class="server_name">{$srv.hostname}</div>
-				<div class="players"><span style="color: {$srv.color}">{$srv.cplayers}/{$srv.maxplayers}</span></div>
-				<div class="map_name">{$srv.map}</div>
-			</div>
-		</div>
-		{/if}
-	{/foreach}
+		<ul>
+		{foreach from=$servers item=srv}
+			{if $hide || $srv.cplayers gt 0}
+				<li>
+					<div class="server" title="{$srv.fullname}" onclick="location.href='steam://connect/{$srv.ip}/';">
+					<div class="pic">
+						<img src="{$srv.mapimg}" alt="{$srv.map}">
+					</div>
+					<div class="info">
+						<div class="server_name">{$srv.hostname}</div>
+						<div class="players"><span style="color: {$srv.color}">{$srv.cplayers}/{$srv.maxplayers}</span></div>
+						<div class="map_name">{$srv.map}</div>
+					</div>
+					</div>
+				</li>
+			{/if}
+		{/foreach}
+		</ul>
 	</div>
+	<script type="text/javascript">
+	$(function() {
+		$(".wrapper").jCarouselLite({
+			auto: 800,
+			speed: 1000,
+			visible: 5,
+			vertical: true
+		});
+	});
+	</script>
 </body>
 </html>
