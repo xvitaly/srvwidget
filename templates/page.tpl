@@ -4,7 +4,7 @@
 	<title>Simple server widget by EasyCoding Team</title>
 	<link rel="stylesheet" href="static/widget.css" type="text/css" />
 	<script type="text/javascript" language="javascript" src="static/jquery.min.js"></script>
-	<script type="text/javascript" language="javascript" src="static/jquery.jcarousellite.min.js"></script>
+	<script type="text/javascript" language="javascript" src="static/jquery.jcarousellite.js"></script>
 </head>
 <body>
 	<div class="wrapper">
@@ -33,7 +33,8 @@
 			auto: 800,
 			speed: 1000,
 			visible: 5,
-			vertical: true
+			vertical: true,
+			hoverPause: true
 		});
 	});
 	</script>
