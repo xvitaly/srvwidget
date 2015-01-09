@@ -15,31 +15,63 @@
 
 class Application
 {	
+	const STEAM_URI = 'https://api.steampowered.com/IGameServersService/GetServerIPsBySteamID/v0001/';
+	const STEAM_TOKEN = '';
+	
 	const DB_HOST = 'localhost';
 	const DB_NAME = 'srvwidget';
 	const DB_USER = '';
 	const DB_PASS = '';
 	const SHOWEMPTY = false;
 	
-	private static $SRVOUR = array();
-	private static $SRVOTH = array();
+	private static $SERVERS = array();
 	
+	function sendGETRequest($url, $useragent = 'wget')
+	{
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 4);
+		curl_setopt($ch, CURLOPT_MAXREDIRS, 1);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+		curl_setopt($ch, CURLOPT_HEADER, false);
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_REFERER, $url);
+		curl_setopt($ch, CURLOPT_USERAGENT, $useragent);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		$result = curl_exec($ch);
+		$rescode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		curl_close($ch);
+		return $rescode == 200 ? $result : null;
+	}
+	
+	private function resolveServersIP($a)
+	{
+		$req = array('key' => self::STEAM_TOKEN, 'format' => 'xml', 'server_steamids' => $a);
+		$xml = simplexml_load_string(self::sendGETRequest(sprintf('%s?%s', self::STEAM_URI, http_build_query($req))));
+		foreach($xml -> servers -> message as $item)
+		{
+			self::$SERVERS[] = $item -> addr;
+		}
+	}
+
 	private function fetchServersDB()
 	{
+		$srvids = array();
 		$mlink = new mysqli(self::DB_HOST, self::DB_USER, self::DB_PASS, self::DB_NAME);
 		if (!mysqli_connect_errno())
 		{
 			$mlink -> set_charset("utf8");
-			if ($stm = $mlink -> query("SELECT Address, Type FROM servers ORDER BY Type ASC LIMIT 0,30"))
+			if ($stm = $mlink -> query("SELECT ServerID FROM servers WHERE IsEnabled = '1' ORDER BY ID ASC LIMIT 0,30"))
 			{
 				while ($row = $stm -> fetch_row())
 				{
-					if ($row[1] == 'OUR') { self::$SRVOUR[] = $row[0]; } else { self::$SRVOTH[] = $row[0]; }
+					$srvids[] = $row[0];
 				}
 				$stm -> close();
 			}
 			$mlink -> close();
 		}
+		return $srvids;
 	}
 	
 	private function checkMapImage($map)
@@ -95,7 +127,7 @@ class Application
 	
 	public static function Run()
 	{
-		self::fetchServersDB();
+		self::resolveServersIP(self::fetchServersDB());
 		
 		$smarty = new Smarty();
 		$srvs = array();
@@ -104,13 +136,8 @@ class Application
 		$smarty -> setCacheDir(sys_get_temp_dir());
 		$smarty -> setCompileDir(sys_get_temp_dir());
 		
-		foreach (self::$SRVOUR as $value)
-		{
-			$srvs[] = self::returnServerInfo($value);
-		}
-		
-		shuffle(self::$SRVOTH);
-		foreach (self::$SRVOTH as $value)
+		shuffle(self::$SERVERS);
+		foreach (self::$SERVERS as $value)
 		{
 			$srvs[] = self::returnServerInfo($value);
 		}
