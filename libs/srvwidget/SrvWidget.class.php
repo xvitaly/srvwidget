@@ -3,8 +3,8 @@
 /* 
  * Simple Source engine widget.
  * 
- * Copyright 2013 EasyCoding Team (ECTeam).
- * Copyright 2005 - 2014 EasyCoding Team.
+ * Copyright 2013 - 2015 EasyCoding Team (ECTeam).
+ * Copyright 2005 - 2015 EasyCoding Team.
  * 
  * License: GNU GPL version 3.
  *
