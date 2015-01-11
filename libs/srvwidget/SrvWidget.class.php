@@ -26,7 +26,7 @@ class Application
 	
 	private static $SERVERS = array();
 	
-	function sendGETRequest($url, $useragent = 'wget')
+	private function sendGETRequest($url, $useragent = 'wget')
 	{
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 4);

@@ -42,9 +42,7 @@ class Cache
 	
 	public function end()
 	{
-		$fp = @fopen($this -> cacheFile, 'w');
-		@fwrite($fp, ob_get_contents());
-		@fclose($fp);
+		file_put_contents($this -> cacheFile, ob_get_contents());
 		ob_end_flush();
 	}
 }
