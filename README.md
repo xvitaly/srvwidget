@@ -29,4 +29,6 @@ INSERT INTO `servers` (`ID`, `ServerID`, `Comment`, `IsEnabled`) VALUES
 (11, '85568392920040188', 'ALTFS #6 (2fort only)', 1);
 ```
 
-4. Enjoy.
+Requiments
+========
+PHP version 5.2+ with socket, mysqli and bcmath extensions. Requires full socket support. May not work on shared hosting!
