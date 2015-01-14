@@ -2,7 +2,7 @@ Installation
 ========
 1. Upload all files from this repository to your web server.
 
-2. Open /libs/srvwidget/SrvWidget.class.php and set MySQL username, password, database name and Steam Web API token.
+2. Open ```/libs/srvwidget/SrvWidget.class.php``` and set MySQL username, password, database name and Steam Web API token.
 
 3. Import this SQL dump file:
 ```
@@ -32,3 +32,7 @@ INSERT INTO `servers` (`ID`, `ServerID`, `Comment`, `IsEnabled`) VALUES
 Requirements
 ========
 PHP version 5.2+ with socket, mysqli and bcmath extensions. Requires full socket support. May not work on shared hosting!
+
+License
+========
+Main code licensed under the terms of GNU General Public License version 3. You can find it here: https://www.gnu.org/licenses/gpl.html. External libraries can use another licenses, compatible with GNU GPLv3.
