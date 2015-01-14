@@ -2,7 +2,7 @@
 	/**
 	 * Class written by xPaw
 	 *
-	 * Website: http://xpaw.ru
+	 * Website: http://xpaw.me
 	 * GitHub: https://github.com/xPaw/PHP-Source-Query-Class
 	 *
 	 * Special thanks to koraktor for his awesome Steam Condenser class,
@@ -17,7 +17,8 @@
 	require __DIR__ . '/Exception.class.php';
 	require __DIR__ . '/Buffer.class.php';
 	require __DIR__ . '/Socket.class.php';
-	require __DIR__ . '/Rcon.class.php';
+	require __DIR__ . '/SourceRcon.class.php';
+	require __DIR__ . '/GoldSourceRcon.class.php';
 	
 	class SourceQuery
 	{
@@ -43,6 +44,7 @@
 		const A2S_INFO      = 0x54;
 		const A2S_PLAYER    = 0x55;
 		const A2S_RULES     = 0x56;
+		const A2S_SERVERQUERY_GETCHALLENGE = 0x57;
 		
 		/**
 		 * Packets received
@@ -102,11 +104,17 @@
 		 */
 		private $Challenge;
 		
+		/**
+		 * Use old method for getting challenge number
+		 * 
+		 * @var bool
+		 */
+		private $UseOldGetChallengeMethod;
+		
 		public function __construct( )
 		{
 			$this->Buffer = new SourceQueryBuffer( );
 			$this->Socket = new SourceQuerySocket( $this->Buffer );
-			$this->Rcon   = new SourceQueryRcon( $this->Buffer, $this->Socket );
 		}
 		
 		public function __destruct( )
@@ -128,8 +136,6 @@
 		public function Connect( $Ip, $Port, $Timeout = 3, $Engine = self :: SOURCE )
 		{
 			$this->Disconnect( );
-			$this->Buffer->Reset( );
-			$this->Challenge = 0;
 			
 			if( !is_int( $Timeout ) || $Timeout < 0 )
 			{
@@ -145,14 +151,39 @@
 		}
 		
 		/**
+		 * Forces GetChallenge to use old method for challenge retrieval because some games use outdated protocol (e.g Starbound)
+		 *
+		 * @param bool $Value Set to true to force old method
+		 *
+		 * @returns bool Previous value
+		 */
+		public function SetUseOldGetChallengeMethod( $Value )
+		{
+			$Previous = $this->UseOldGetChallengeMethod;
+			
+			$this->UseOldGetChallengeMethod = $Value === true;
+			
+			return $Previous;
+		}
+		
+		/**
 		 * Closes all open connections
 		 */
 		public function Disconnect( )
 		{
 			$this->Connected = false;
+			$this->Challenge = 0;
+			
+			$this->Buffer->Reset( );
 			
 			$this->Socket->Close( );
-			$this->Rcon->Close( );
+			
+			if( $this->Rcon )
+			{
+				$this->Rcon->Close( );
+				
+				$this->Rcon = null;
+			}
 		}
 		
 		/**
@@ -171,7 +202,7 @@
 			$this->Socket->Write( self :: A2S_PING );
 			$this->Socket->Read( );
 			
-			return $this->Buffer->GetByte( ) == self :: S2A_PING;
+			return $this->Buffer->GetByte( ) === self :: S2A_PING;
 		}
 		
 		/**
@@ -193,13 +224,13 @@
 			
 			$Type = $this->Buffer->GetByte( );
 			
-			if( $Type == 0 )
+			if( $Type === 0 )
 			{
 				return false;
 			}
 			
 			// Old GoldSource protocol, HLTV still uses it
-			if( $Type == self :: S2A_INFO_OLD && $this->Socket->Engine == self :: GOLDSOURCE )
+			if( $Type === self :: S2A_INFO_OLD && $this->Socket->Engine === self :: GOLDSOURCE )
 			{
 				/**
 				 * If we try to read data again, and we get the result with type S2A_INFO (0x49)
@@ -217,8 +248,8 @@
 				$Server[ 'Protocol' ]   = $this->Buffer->GetByte( );
 				$Server[ 'Dedicated' ]  = Chr( $this->Buffer->GetByte( ) );
 				$Server[ 'Os' ]         = Chr( $this->Buffer->GetByte( ) );
-				$Server[ 'Password' ]   = $this->Buffer->GetByte( ) == 1;
-				$Server[ 'IsMod' ]      = $this->Buffer->GetByte( ) == 1;
+				$Server[ 'Password' ]   = $this->Buffer->GetByte( ) === 1;
+				$Server[ 'IsMod' ]      = $this->Buffer->GetByte( ) === 1;
 				
 				if( $Server[ 'IsMod' ] )
 				{
@@ -227,11 +258,11 @@
 					$this->Buffer->Get( 1 ); // NULL byte
 					$Mod[ 'Version' ]    = $this->Buffer->GetLong( );
 					$Mod[ 'Size' ]       = $this->Buffer->GetLong( );
-					$Mod[ 'ServerSide' ] = $this->Buffer->GetByte( ) == 1;
-					$Mod[ 'CustomDLL' ]  = $this->Buffer->GetByte( ) == 1;
+					$Mod[ 'ServerSide' ] = $this->Buffer->GetByte( ) === 1;
+					$Mod[ 'CustomDLL' ]  = $this->Buffer->GetByte( ) === 1;
 				}
 				
-				$Server[ 'Secure' ]   = $this->Buffer->GetByte( ) == 1;
+				$Server[ 'Secure' ]   = $this->Buffer->GetByte( ) === 1;
 				$Server[ 'Bots' ]     = $this->Buffer->GetByte( );
 				
 				if( isset( $Mod ) )
@@ -242,7 +273,7 @@
 				return $Server;
 			}
 			
-			if( $Type != self :: S2A_INFO )
+			if( $Type !== self :: S2A_INFO )
 			{
 				throw new SourceQueryException( 'GetInfo: Packet header mismatch. (0x' . DecHex( $Type ) . ')' );
 			}
@@ -258,11 +289,11 @@
 			$Server[ 'Bots' ]       = $this->Buffer->GetByte( );
 			$Server[ 'Dedicated' ]  = Chr( $this->Buffer->GetByte( ) );
 			$Server[ 'Os' ]         = Chr( $this->Buffer->GetByte( ) );
-			$Server[ 'Password' ]   = $this->Buffer->GetByte( ) == 1;
-			$Server[ 'Secure' ]     = $this->Buffer->GetByte( ) == 1;
+			$Server[ 'Password' ]   = $this->Buffer->GetByte( ) === 1;
+			$Server[ 'Secure' ]     = $this->Buffer->GetByte( ) === 1;
 			
-			// The Ship
-			if( $Server[ 'AppID' ] == 2400 )
+			// The Ship (they violate query protocol spec by modifying the response)
+			if( $Server[ 'AppID' ] === 2400 )
 			{
 				$Server[ 'GameMode' ]     = $this->Buffer->GetByte( );
 				$Server[ 'WitnessCount' ] = $this->Buffer->GetByte( );
@@ -274,7 +305,7 @@
 			// Extra Data Flags
 			if( $this->Buffer->Remaining( ) > 0 )
 			{
-				$Flags = $this->Buffer->GetByte( );
+				$Server[ 'ExtraDataFlags' ] = $Flags = $this->Buffer->GetByte( );
 				
 				// The server's game port
 				if( $Flags & 0x80 )
@@ -285,7 +316,7 @@
 				// The server's SteamID - does this serve any purpose?
 				if( $Flags & 0x10 )
 				{
-					$Server[ 'ServerID' ] = $this->Buffer->GetUnsignedLong( ) | ( $this->Buffer->GetUnsignedLong( ) << 32 );
+					$Server[ 'ServerID' ] = $this->Buffer->GetUnsignedLong( ) | ( $this->Buffer->GetUnsignedLong( ) << 32 ); // TODO: verify this
 				}
 				
 				// The spectator port and then the spectator server name
@@ -301,7 +332,16 @@
 					$Server[ 'GameTags' ] = $this->Buffer->GetString( );
 				}
 				
-				// 0x01 - The server's 64-bit GameID
+				// GameID -- alternative to AppID?
+				if( $Flags & 0x01 )
+				{
+					$Server[ 'GameID' ] = $this->Buffer->GetUnsignedLong( ) | ( $this->Buffer->GetUnsignedLong( ) << 32 ); 
+				}
+				
+				if( $this->Buffer->Remaining( ) > 0 )
+				{
+					throw new SourceQueryException( 'GetInfo: unread data? ' . $this->Buffer->Remaining( ) . ' bytes remaining in the buffer. Please report it to the library developer.' );
+				}
 			}
 			
 			return $Server;
@@ -330,15 +370,16 @@
 				case self :: GETCHALLENGE_ALL_CLEAR:
 				{
 					$this->Socket->Write( self :: A2S_PLAYER, $this->Challenge );
-					$this->Socket->Read( );
+					$this->Socket->Read( 14000 ); // Moronic Arma 3 developers do not split their packets, so we have to read more data
+					// This violates the protocol spec, and they probably should fix it: https://developer.valvesoftware.com/wiki/Server_queries#Protocol
 					
 					$Type = $this->Buffer->GetByte( );
 					
-					if( $Type == 0 )
+					if( $Type === 0 )
 					{
 						return false;
 					}
-					else if( $Type != self :: S2A_PLAYER )
+					else if( $Type !== self :: S2A_PLAYER )
 					{
 						throw new SourceQueryException( 'GetPlayers: Packet header mismatch. (0x' . DecHex( $Type ) . ')' );
 					}
@@ -391,11 +432,11 @@
 					
 					$Type = $this->Buffer->GetByte( );
 					
-					if( $Type == 0 )
+					if( $Type === 0 )
 					{
 						return false;
 					}
-					else if( $Type != self :: S2A_RULES )
+					else if( $Type !== self :: S2A_RULES )
 					{
 						throw new SourceQueryException( 'GetRules: Packet header mismatch. (0x' . DecHex( $Type ) . ')' );
 					}
@@ -431,6 +472,11 @@
 			if( $this->Challenge )
 			{
 				return self :: GETCHALLENGE_ALL_CLEAR;
+			}
+			
+			if( $this->UseOldGetChallengeMethod )
+			{
+				$Header = self :: A2S_SERVERQUERY_GETCHALLENGE;
 			}
 			
 			$this->Socket->Write( $Header, 0xFFFFFFFF );
@@ -477,17 +523,33 @@
 				return false;
 			}
 			
+			switch( $this->Socket->Engine )
+			{
+				case SourceQuery :: GOLDSOURCE:
+				{
+					$this->Rcon = new SourceQueryGoldSourceRcon( $this->Buffer, $this->Socket );
+					
+					break;
+				}
+				case SourceQuery :: SOURCE:
+				{
+					$this->Rcon = new SourceQuerySourceRcon( $this->Buffer, $this->Socket );
+					
+					break;
+				}
+			}
+			
 			$this->Rcon->Open( );
 			
 			return $this->Rcon->Authorize( $Password );
 		}
 		
 		/**
-		 * Sets rcon password, for future use in Rcon()
+		 * Sends a command to the server for execution.
 		 *
-		 * @param string $Command Command to execute on the server
+		 * @param string $Command Command to execute
 		 *
-		 * @return bool|string Answer from server in string, false on failure
+		 * @return string|bool Answer from server in string, false on failure
 		 */
 		public function Rcon( $Command )
 		{
