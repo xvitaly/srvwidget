@@ -92,7 +92,7 @@ class Application
 	{
 		$title = str_replace(array(" ", "_", "?", "\r\n", "\r", "\n"), "", $title);
 		$title = str_replace(array("#", "|", "::"), array(" #", " | ", " : "), $title);
-		return strtoupper(mb_substr($title, 0, 19));
+		return mb_strtoupper(mb_substr($title, 0, 19));
 	}
 	
 	private function returnServerInfo($ip)
