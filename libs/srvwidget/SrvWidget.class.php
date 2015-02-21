@@ -64,9 +64,12 @@ class Application
 	{
 		$req = array('key' => self::STEAM_TOKEN, 'format' => 'xml', 'server_steamids' => $a);
 		$xml = simplexml_load_string(self::sendGETRequest(sprintf('%s?%s', self::STEAM_URI, http_build_query($req))));
-		foreach($xml -> servers -> message as $item)
+		if (is_object($xml))
 		{
-			self::$SERVERS[] = $item -> addr;
+			foreach($xml -> servers -> message as $item)
+			{
+				self::$SERVERS[] = $item -> addr;
+			}
 		}
 	}
 
