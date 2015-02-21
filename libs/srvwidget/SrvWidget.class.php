@@ -26,7 +26,7 @@ class Application
 	
 	private static $SERVERS = array();
 	
-	private function http_parse_headers($header)
+	private function parseHeaders($header)
 	{
 		$result = array();
 		$fields = explode("\r\n", preg_replace('/\x0D\x0A[\x09\x20]+/', ' ', $header));
@@ -48,15 +48,16 @@ class Application
 		curl_setopt($ch, CURLOPT_MAXREDIRS, 1);
 		curl_setopt($ch, CURLOPT_TIMEOUT, 5);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		curl_setopt($ch, CURLOPT_HEADER, false);
+		curl_setopt($ch, CURLOPT_HEADER, true);
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_REFERER, $url);
 		curl_setopt($ch, CURLOPT_USERAGENT, $useragent);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$result = curl_exec($ch);
-		$rescode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		$hsize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+		$headers = self::parseHeaders(substr($result, 0, $hsize));
 		curl_close($ch);
-		return $rescode == 200 ? $result : null;
+		return $headers['X-Eresult'] == '1' ? substr($result, $hsize) : null;
 	}
 	
 	private function resolveServersIP($a)
