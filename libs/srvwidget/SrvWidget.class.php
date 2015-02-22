@@ -34,7 +34,7 @@ class Application
 		{
 			if (preg_match('/([^:]+): (.+)/m', $field, $match))
 			{
-				$match[1] = preg_replace('/(?<=^|[\x09\x20\x2D])./e', 'strtoupper("\0")', strtolower(trim($match[1])));
+				$match[1] = preg_replace('/(?<=^|[\x09\x20\x2D])./e', 'mb_strtoupper("\0")', mb_strtolower(trim($match[1])));
 				$result[$match[1]] = isset($result[$match[1]]) ? array($result[$match[1]], $match[2]) : trim($match[2]);
 			}
 		}
@@ -55,9 +55,9 @@ class Application
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$result = curl_exec($ch);
 		$hsize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-		$headers = self::parseHeaders(substr($result, 0, $hsize));
+		$headers = self::parseHeaders(mb_substr($result, 0, $hsize));
 		curl_close($ch);
-		return $headers['X-Eresult'] == '1' ? substr($result, $hsize) : null;
+		return $headers['X-Eresult'] == '1' ? mb_substr($result, $hsize) : null;
 	}
 	
 	private function resolveServersIP($a)
