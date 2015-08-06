@@ -54,10 +54,13 @@ class Application
 		curl_setopt($ch, CURLOPT_USERAGENT, $useragent);
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$result = curl_exec($ch);
+		$hcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+		if ($hcode != 200) { throw new Exception('Steam API is down.'); }
 		$hsize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
 		$headers = self::parseHeaders(mb_substr($result, 0, $hsize));
+		if (!isset($headers['X-Eresult']) || ($headers['X-Eresult'] != '1')) { throw new Exception('Steam API returned incorrect values.'); }
 		curl_close($ch);
-		return $headers['X-Eresult'] == '1' ? mb_substr($result, $hsize) : null;
+		return mb_substr($result, $hsize);
 	}
 	
 	private function resolveServersIP($a)
@@ -146,25 +149,33 @@ class Application
 	
 	public static function Run()
 	{
-		self::resolveServersIP(self::fetchServersDB());
-		
 		$smarty = new Smarty();
-		$srvs = array();
 		
 		$smarty -> setTemplateDir('templates');
 		$smarty -> setCacheDir(sys_get_temp_dir());
 		$smarty -> setCompileDir(sys_get_temp_dir());
 		
-		shuffle(self::$SERVERS);
-		foreach (self::$SERVERS as $value)
+		try
 		{
-			$srvs[] = self::returnServerInfo($value);
+			$srvs = array();
+			self::resolveServersIP(self::fetchServersDB());
+			
+			shuffle(self::$SERVERS);
+			foreach (self::$SERVERS as $value)
+			{
+				$srvs[] = self::returnServerInfo($value);
+			}
+			
+			$smarty -> assign('servers', $srvs);
+			$smarty -> assign('hide', self::SHOWEMPTY);
+			
+			$smarty -> display('page.tpl');
 		}
-		
-		$smarty -> assign('servers', $srvs);
-		$smarty -> assign('hide', self::SHOWEMPTY);
-		
-		$smarty -> display('page.tpl');
+		catch (Exception $ex)
+		{
+			// TODO: replace it with special error page.
+			echo $ex->getMessage();
+		}
 	}
 }
 
