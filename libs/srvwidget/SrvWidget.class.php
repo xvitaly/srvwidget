@@ -173,8 +173,8 @@ class Application
 		}
 		catch (Exception $ex)
 		{
-			// TODO: replace it with special error page.
-			echo $ex->getMessage();
+			$smarty -> assign('errmsg', $ex->getMessage());
+			$smarty -> display('error.tpl');
 		}
 	}
 }
