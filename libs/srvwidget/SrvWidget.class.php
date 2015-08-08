@@ -173,7 +173,7 @@ class Application
 		}
 		catch (Exception $ex)
 		{
-			$smarty -> assign('errmsg', $ex->getMessage());
+			$smarty -> assign('errmsg', $ex -> getMessage());
 			$smarty -> display('error.tpl');
 		}
 	}
