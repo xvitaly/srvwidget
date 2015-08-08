@@ -96,6 +96,24 @@ class Application
 		return $srvids;
 	}
 	
+	private function getLegacyServerIPs()
+	{
+		$mlink = new mysqli(self::DB_HOST, self::DB_USER, self::DB_PASS, self::DB_NAME);
+		if (!mysqli_connect_errno())
+		{
+			$mlink -> set_charset("utf8");
+			if ($stm = $mlink -> query("SELECT IP FROM legacy WHERE IsEnabled = '1' ORDER BY ID ASC LIMIT 0,30"))
+			{
+				while ($row = $stm -> fetch_row())
+				{
+					self::$SERVERS = $row[0];
+				}
+				$stm -> close();
+			}
+			$mlink -> close();
+		}
+	}
+	
 	private function checkMapImage($map)
 	{
 		$r = sprintf('static/maps/%s.png', $map);
