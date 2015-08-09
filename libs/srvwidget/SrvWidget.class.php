@@ -63,7 +63,7 @@ class Application
 		return mb_substr($result, $hsize);
 	}
 	
-	private function resolveServersIP($a)
+	private function resolveServersIPs($a)
 	{
 		$req = array('key' => self::STEAM_TOKEN, 'format' => 'xml', 'server_steamids' => $a);
 		$xml = simplexml_load_string(self::sendGETRequest(sprintf('%s?%s', self::STEAM_URI, http_build_query($req))));
@@ -176,7 +176,7 @@ class Application
 		try
 		{
 			$srvs = array();
-			self::resolveServersIP(self::fetchServersDB());
+			self::resolveServersIPs(self::fetchServersDB());
 			
 			shuffle(self::$SERVERS);
 			foreach (self::$SERVERS as $value)
