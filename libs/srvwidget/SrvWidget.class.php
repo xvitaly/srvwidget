@@ -25,7 +25,8 @@ class Application
 	const SHOWEMPTY = false;
 	
 	private static $SERVERS = array();
-	
+	private static $mlink;
+
 	private function parseHeaders($header)
 	{
 		$result = array();
@@ -75,42 +76,40 @@ class Application
 			}
 		}
 	}
+	
+	private function startDBConnection()
+	{
+		self::$mlink = new mysqli(self::DB_HOST, self::DB_USER, self::DB_PASS, self::DB_NAME);
+		if (!mysqli_connect_errno()) { self::$mlink -> set_charset("utf8"); } else { throw new Exception('No database connection.'); }
+	}
+	
+	private function closeDBConnection()
+	{
+		if (!mysqli_connect_errno()) { self::$mlink -> close(); }
+	}
 
 	private function fetchServersDB()
 	{
 		$srvids = array();
-		$mlink = new mysqli(self::DB_HOST, self::DB_USER, self::DB_PASS, self::DB_NAME);
-		if (!mysqli_connect_errno())
+		if ($stm = self::$mlink -> query("SELECT ServerID FROM servers WHERE IsEnabled = '1' ORDER BY ID ASC LIMIT 0,30"))
 		{
-			$mlink -> set_charset("utf8");
-			if ($stm = $mlink -> query("SELECT ServerID FROM servers WHERE IsEnabled = '1' ORDER BY ID ASC LIMIT 0,30"))
+			while ($row = $stm -> fetch_row())
 			{
-				while ($row = $stm -> fetch_row())
-				{
-					$srvids[] = $row[0];
-				}
-				$stm -> close();
+				$srvids[] = $row[0];
 			}
-			$mlink -> close();
+			$stm -> close();
 		}
 		return $srvids;
 	}
 	
 	private function getLegacyServerIPs()
 	{
-		$mlink = new mysqli(self::DB_HOST, self::DB_USER, self::DB_PASS, self::DB_NAME);
-		if (!mysqli_connect_errno())
+		if ($stm = self::$mlink -> query("SELECT IP FROM legacy WHERE IsEnabled = '1' ORDER BY ID ASC LIMIT 0,30"))
 		{
-			$mlink -> set_charset("utf8");
-			if ($stm = $mlink -> query("SELECT IP FROM legacy WHERE IsEnabled = '1' ORDER BY ID ASC LIMIT 0,30"))
+			while ($row = $stm -> fetch_row())
 			{
-				while ($row = $stm -> fetch_row())
-				{
-					self::$SERVERS = $row[0];
-				}
-				$stm -> close();
+				self::$SERVERS = $row[0];
 			}
-			$mlink -> close();
 		}
 	}
 	
@@ -167,6 +166,7 @@ class Application
 	
 	public static function Run()
 	{
+		$srvs = array();
 		$smarty = new Smarty();
 		
 		$smarty -> setTemplateDir('templates');
@@ -175,8 +175,9 @@ class Application
 		
 		try
 		{
-			$srvs = array();
+			self::startDBConnection();
 			self::resolveServersIPs(self::fetchServersDB());
+			self::closeDBConnection();
 			
 			shuffle(self::$SERVERS);
 			foreach (self::$SERVERS as $value)
