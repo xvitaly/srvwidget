@@ -6,6 +6,9 @@
 </head>
 <body>
 	<div class="wrapper">
+		<div class="message">
+			{$errmsg}
+		</div>
 	</div>
 </body>
 </html>
