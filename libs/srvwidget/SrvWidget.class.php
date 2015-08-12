@@ -15,18 +15,9 @@
 
 class Application
 {	
-	const STEAM_URI = 'https://api.steampowered.com/IGameServersService/GetServerIPsBySteamID/v0001/';
-	const STEAM_TOKEN = '';
-	
-	const DB_HOST = 'localhost';
-	const DB_NAME = 'srvwidget';
-	const DB_USER = '';
-	const DB_PASS = '';
-	const SHOWEMPTY = false;
-	
 	private static $SERVERS = array();
 	private static $mlink;
-
+	
 	private function parseHeaders($header)
 	{
 		$result = array();
@@ -66,8 +57,8 @@ class Application
 	
 	private function resolveServersIPs($a)
 	{
-		$req = array('key' => self::STEAM_TOKEN, 'format' => 'xml', 'server_steamids' => $a);
-		$xml = simplexml_load_string(self::sendGETRequest(sprintf('%s?%s', self::STEAM_URI, http_build_query($req))));
+		$req = array('key' => Settings::STEAM_TOKEN, 'format' => 'xml', 'server_steamids' => $a);
+		$xml = simplexml_load_string(self::sendGETRequest(sprintf('%s?%s', Settings::STEAM_URI, http_build_query($req))));
 		if (is_object($xml))
 		{
 			foreach($xml -> servers -> message as $item)
@@ -79,7 +70,7 @@ class Application
 	
 	private function startDBConnection()
 	{
-		self::$mlink = new mysqli(self::DB_HOST, self::DB_USER, self::DB_PASS, self::DB_NAME);
+		self::$mlink = new mysqli(Settings::DB_HOST, Settings::DB_USER, Settings::DB_PASS, Settings::DB_NAME);
 		if (!mysqli_connect_errno()) { self::$mlink -> set_charset("utf8"); } else { throw new Exception('No database connection.'); }
 	}
 	
@@ -186,7 +177,7 @@ class Application
 			}
 			
 			$smarty -> assign('servers', $srvs);
-			$smarty -> assign('hide', self::SHOWEMPTY);
+			$smarty -> assign('hide', Settings::SHOWEMPTY);
 			
 			$smarty -> display('page.tpl');
 		}

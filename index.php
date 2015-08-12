@@ -12,6 +12,9 @@
  * 
  */
 
+// Connecting settings storage...
+require_once('libs/srvwidget/Settings.class.php');
+
 // Connecting libraries...
 require_once('libs/sourcequery/SourceQuery.class.php');
 require_once('libs/smarty/Smarty.class.php');
