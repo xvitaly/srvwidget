@@ -120,7 +120,7 @@ class Application
 	
 	private function optimizeServerDB()
 	{
-		if (empty(self::$SERVERS)) { throw new Exception('No servers detected.'); } else { shuffle(self::$SERVERS); }
+		if (!empty(self::$SERVERS)) { shuffle(self::$SERVERS); } else { throw new Exception('No servers detected.'); }
 	}
 	
 	private function cleanSrvTitle($title)
@@ -173,8 +173,8 @@ class Application
 		{
 			self::startDBConnection();
 			self::resolveServersIPs(self::fetchServersDB());
-			self::optimizeServerDB();
 			self::closeDBConnection();
+			self::optimizeServerDB();
 			
 			foreach (self::$SERVERS as $value)
 			{
