@@ -120,7 +120,7 @@ class Application
 	
 	private function optimizeServerDB()
 	{
-		if (!empty(self::$SERVERS)) { shuffle(self::$SERVERS); } else { throw new Exception('No servers detected.'); }
+		if (count(self::$SERVERS) > 0) { shuffle(self::$SERVERS); } else { throw new Exception('No servers detected.'); }
 	}
 	
 	private function cleanSrvTitle($title)
