@@ -118,9 +118,9 @@ class Application
 		return $result;
 	}
 	
-	private function checkServerDB()
+	private function optimizeServerDB()
 	{
-		if (empty(self::$SERVERS)) { throw new Exception('No servers detected.'); }
+		if (empty(self::$SERVERS)) { throw new Exception('No servers detected.'); } else { shuffle(self::$SERVERS); }
 	}
 	
 	private function cleanSrvTitle($title)
@@ -173,10 +173,9 @@ class Application
 		{
 			self::startDBConnection();
 			self::resolveServersIPs(self::fetchServersDB());
-			self::checkServerDB();
+			self::optimizeServerDB();
 			self::closeDBConnection();
 			
-			shuffle(self::$SERVERS);
 			foreach (self::$SERVERS as $value)
 			{
 				$srvs[] = self::returnServerInfo($value);
