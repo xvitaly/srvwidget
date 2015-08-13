@@ -118,6 +118,11 @@ class Application
 		return $result;
 	}
 	
+	private function checkServerDB()
+	{
+		if (empty(self::$SERVERS)) { throw new Exception('No servers detected.'); }
+	}
+	
 	private function cleanSrvTitle($title)
 	{
 		$title = str_replace(array(" ", "_", "?", "\r\n", "\r", "\n", "\t"), "", $title);
@@ -168,6 +173,7 @@ class Application
 		{
 			self::startDBConnection();
 			self::resolveServersIPs(self::fetchServersDB());
+			self::checkServerDB();
 			self::closeDBConnection();
 			
 			shuffle(self::$SERVERS);
