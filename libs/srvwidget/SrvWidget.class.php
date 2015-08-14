@@ -160,7 +160,7 @@ class Application
 		return $r;
 	}
 	
-	private function getServerList()
+	private function buildServerList()
 	{
 		$srvs = array();
 		foreach (self::$SERVERS as $value) { $srvs[] = self::returnServerInfo($value); }
@@ -183,7 +183,7 @@ class Application
 			self::closeDBConnection();
 			self::optimizeServerDB();
 			
-			$smarty -> assign('servers', self::getServerList());
+			$smarty -> assign('servers', self::buildServerList());
 			$smarty -> assign('hide', Settings::SHOWEMPTY);
 			
 			$smarty -> display('page.tpl');
