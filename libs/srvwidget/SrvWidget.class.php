@@ -120,7 +120,7 @@ class Application
 	
 	private function optimizeServerDB()
 	{
-		if (count(self::$SERVERS) > 0) { shuffle(self::$SERVERS); } else { throw new Exception('No servers detected.'); }
+		if (count(self::$SERVERS) > 0) { shuffle(self::$SERVERS); } else { throw new Exception('Empty server database. Import dump or fill it manually.'); }
 	}
 	
 	private function cleanSrvTitle($title)
