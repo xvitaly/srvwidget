@@ -160,9 +160,16 @@ class Application
 		return $r;
 	}
 	
-	public static function Run()
+	private function getServerList()
 	{
 		$srvs = array();
+		foreach (self::$SERVERS as $value) { $srvs[] = self::returnServerInfo($value); }
+		if (empty($srvs)) { throw new Exception('No servers detected.'); }
+		return $srvs;
+	}
+	
+	public static function Run()
+	{
 		$smarty = new Smarty();
 		
 		$smarty -> setTemplateDir('templates');
@@ -176,12 +183,7 @@ class Application
 			self::closeDBConnection();
 			self::optimizeServerDB();
 			
-			foreach (self::$SERVERS as $value)
-			{
-				$srvs[] = self::returnServerInfo($value);
-			}
-			
-			$smarty -> assign('servers', $srvs);
+			$smarty -> assign('servers', self::getServerList());
 			$smarty -> assign('hide', Settings::SHOWEMPTY);
 			
 			$smarty -> display('page.tpl');
