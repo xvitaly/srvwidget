@@ -164,7 +164,7 @@ class Application
 	{
 		$srvs = array();
 		foreach (self::$SERVERS as $value) { $srvs[] = self::returnServerInfo($value); }
-		if (empty($srvs)) { throw new Exception('No servers detected.'); }
+		if (empty($srvs)) { throw new Exception('No servers responded to our queries.'); }
 		return $srvs;
 	}
 	
