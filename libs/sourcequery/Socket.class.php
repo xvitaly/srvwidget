@@ -2,9 +2,12 @@
 	/**
 	 * Class written by xPaw
 	 *
-	 * Website: http://xpaw.me
+	 * Website: https://xpaw.me
 	 * GitHub: https://github.com/xPaw/PHP-Source-Query-Class
 	 */
+	
+	use xPaw\SourceQuery\Exception\InvalidPacketException;
+	use xPaw\SourceQuery\Exception\SocketException;
 	
 	class SourceQuerySocket
 	{
@@ -48,7 +51,7 @@
 			
 			if( $ErrNo || $this->Socket === false )
 			{
-				throw new Exception( 'Could not create socket: ' . $ErrStr );
+				throw new SocketException( 'Could not create socket: ' . $ErrStr, SocketException::COULD_NOT_CREATE_SOCKET );
 			}
 			
 			Stream_Set_Timeout( $this->Socket, $Timeout );
@@ -67,7 +70,12 @@
 		
 		public function Read( $Length = 1400 )
 		{
-			$this->Buffer->Set( FRead( $this->Socket, $Length ) );
+			$this->ReadBuffer( FRead( $this->Socket, $Length ), $Length );
+		}
+		
+		protected function ReadBuffer( $Buffer, $Length )
+		{
+			$this->Buffer->Set( $Buffer );
 			
 			if( $this->Buffer->Remaining( ) === 0 )
 			{
@@ -143,7 +151,7 @@
 					
 					if( CRC32( $Buffer ) !== $PacketChecksum )
 					{
-						throw new SourceQueryException( 'CRC32 checksum mismatch of uncompressed packet data.' );
+						throw new InvalidPacketException( 'CRC32 checksum mismatch of uncompressed packet data.', InvalidPacketException::CHECKSUM_MISMATCH );
 					}
 				}
 				
@@ -151,7 +159,7 @@
 			}
 			else
 			{
-				throw new SourceQueryException( 'Socket read: Raw packet header mismatch. (0x' . DecHex( $Header ) . ')' );
+				throw new InvalidPacketException( 'Socket read: Raw packet header mismatch. (0x' . DecHex( $Header ) . ')', InvalidPacketException::PACKET_HEADER_MISMATCH );
 			}
 		}
 		

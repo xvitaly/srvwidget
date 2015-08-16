@@ -2,9 +2,13 @@
 	/**
 	 * Class written by xPaw
 	 *
-	 * Website: http://xpaw.me
+	 * Website: https://xpaw.me
 	 * GitHub: https://github.com/xPaw/PHP-Source-Query-Class
 	 */
+	
+	use xPaw\SourceQuery\Exception\AuthenticationException;
+	use xPaw\SourceQuery\Exception\TimeoutException;
+	use xPaw\SourceQuery\Exception\InvalidPacketException;
 	
 	class SourceQuerySourceRcon
 	{
@@ -51,7 +55,7 @@
 				
 				if( $ErrNo || !$this->RconSocket )
 				{
-					throw new SourceQueryException( 'Can\'t connect to RCON server: ' . $ErrStr );
+					throw new TimeoutException( 'Can\'t connect to RCON server: ' . $ErrStr, TimeoutException::TIMEOUT_CONNECT );
 				}
 				
 				Stream_Set_Timeout( $this->RconSocket, $this->Socket->Timeout );
@@ -62,7 +66,7 @@
 		public function Write( $Header, $String = '' )
 		{
 			// Pack the packet together
-			$Command = Pack( 'VV', ++$this->RconRequestId, $Header ) . $String . "\x00\x00\x00"; 
+			$Command = Pack( 'VV', ++$this->RconRequestId, $Header ) . $String . "\x00\x00"; 
 			
 			// Prepend packet length
 			$Command = Pack( 'V', StrLen( $Command ) ) . $Command;
@@ -71,11 +75,18 @@
 			return $Length === FWrite( $this->RconSocket, $Command, $Length );
 		}
 		
-		public function Read( $Length = 1400 )
+		public function Read( )
 		{
-			$this->Buffer->Set( FRead( $this->RconSocket, $Length ) );
+			$this->Buffer->Set( FRead( $this->RconSocket, 4 ) );
+			
+			if( $this->Buffer->Remaining( ) < 4 )
+			{
+				throw new InvalidPacketException( 'Rcon read: Failed to read any data from socket', InvalidPacketException::BUFFER_EMPTY );
+			}
 			
 			$PacketSize = $this->Buffer->GetLong( );
+			
+			$this->Buffer->Set( FRead( $this->RconSocket, $PacketSize ) );
 			
 			$Buffer = $this->Buffer->Get( );
 			
@@ -83,10 +94,19 @@
 			
 			while( $Remaining > 0 )
 			{
-				$Buffer2 = FRead( $this->RconSocket, $Length );
-				$Buffer .= $Buffer2;
+				$Buffer2 = FRead( $this->RconSocket, $Remaining );
 				
-				$Remaining -= StrLen( $Buffer2 );
+				$PacketSize = StrLen( $Buffer2 );
+				
+				if( $PacketSize === 0 )
+				{
+					throw new InvalidPacketException( 'Read ' . strlen( $Buffer ) . ' bytes from socket, ' . $Remaining . ' remaining', InvalidPacketException::BUFFER_EMPTY );
+					
+					break;
+				}
+				
+				$Buffer .= $Buffer2;
+				$Remaining -= $PacketSize;
 			}
 			
 			$this->Buffer->Set( $Buffer );
@@ -99,11 +119,12 @@
 			$this->Read( );
 			
 			$this->Buffer->GetLong( ); // RequestID
-			$Type      = $this->Buffer->GetLong( );
+			
+			$Type = $this->Buffer->GetLong( );
 			
 			if( $Type === SourceQuery :: SERVERDATA_AUTH_RESPONSE )
 			{
-				throw new SourceQueryException( 'Bad rcon_password.' );
+				throw new AuthenticationException( 'Bad rcon_password.', AuthenticationException::BAD_PASSWORD );
 			}
 			else if( $Type !== SourceQuery :: SERVERDATA_RESPONSE_VALUE )
 			{
@@ -129,14 +150,19 @@
 						break;
 					}
 					
-					$Buffer .= $this->Buffer->Get( );
+					$Buffer2 = $this->Buffer->Get( );
+					
+					if( $Buffer2 === "\x00\x01\x00\x00\x00\x00" )
+					{
+						break;
+					}
+					
+					$Buffer .= $Buffer2;
 				}
-				while( false ); // TODO: This is so broken that we don't even try to read multiple times, needs to be revised
+				while( true );
 			}
 			
-			// TODO: It should use GetString, but there are no null bytes at the end, why?
-			// $Buffer = $this->Buffer->GetString( );
-			return $Buffer;
+			return rtrim( $Buffer, "\0" );
 		}
 		
 		public function Authorize( $Password )
@@ -160,7 +186,7 @@
 			
 			if( $RequestID === -1 || $Type !== SourceQuery :: SERVERDATA_AUTH_RESPONSE )
 			{
-				throw new SourceQueryException( 'RCON authorization failed.' );
+				throw new AuthenticationException( 'RCON authorization failed.', AuthenticationException::BAD_PASSWORD );
 			}
 			
 			return true;
