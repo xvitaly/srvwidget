@@ -180,6 +180,7 @@ class Application
 		{
 			self::startDBConnection();
 			self::resolveServersIPs(self::fetchServersDB());
+			if (Settings::SHOWLEGACY) { self::getLegacyServerIPs(); }
 			self::closeDBConnection();
 			self::optimizeServerDB();
 			
