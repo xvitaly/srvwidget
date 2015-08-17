@@ -168,6 +168,15 @@ class Application
 		return $srvs;
 	}
 	
+	private function getIPAddrList()
+	{
+		self::startDBConnection();
+		self::resolveServersIPs(self::fetchServersDB());
+		if (Settings::SHOWLEGACY) { self::getLegacyServerIPs(); }
+		self::closeDBConnection();
+		self::optimizeServerDB();
+	}
+
 	public static function Run()
 	{
 		$smarty = new Smarty();
@@ -178,15 +187,10 @@ class Application
 		
 		try
 		{
-			self::startDBConnection();
-			self::resolveServersIPs(self::fetchServersDB());
-			if (Settings::SHOWLEGACY) { self::getLegacyServerIPs(); }
-			self::closeDBConnection();
-			self::optimizeServerDB();
+			self::getIPAddrList();
 			
 			$smarty -> assign('servers', self::buildServerList());
 			$smarty -> assign('hide', Settings::SHOWEMPTY);
-			
 			$smarty -> display('page.tpl');
 		}
 		catch (Exception $ex)
