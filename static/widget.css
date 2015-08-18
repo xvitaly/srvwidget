@@ -65,6 +65,10 @@ margin-top:3px;
 white-space:nowrap;
 }
 
+.wmessage {
+height:75%;
+}
+
 a,a:visited {
 color:#1A4780;
 }
