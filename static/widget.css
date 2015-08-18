@@ -4,6 +4,23 @@ margin:0;
 padding:0;
 }
 
+.flexwr {
+display:-webkit-box;
+display:-moz-box;
+display:-ms-flexbox;
+display:-webkit-flex;
+display:flex;
+position:absolute;
+top:0;
+bottom:0;
+right:0;
+left:0;
+}
+
+.flexpg {
+margin:auto;
+}
+
 .info {
 float:left;
 height:48px;
