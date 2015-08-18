@@ -34,5 +34,5 @@ class Settings
 	 * Project settings.
 	 */
 	const SHOWEMPTY = false;
-	const SHOWLEGACY = true;
+	const SHOWLEGACY = false;
 }
