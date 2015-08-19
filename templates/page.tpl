@@ -10,7 +10,7 @@
 	<div class="wrapper">
 		<ul>
 		{foreach from=$servers item=srv}
-			{if $hide || $srv.cplayers gt 0}
+			{if isset($srv.cplayers)}
 				<li>
 					<div class="server" title="{$srv.fullname}" onclick="location.href='steam://connect/{$srv.ip}/';">
 					<div class="pic">
@@ -23,6 +23,8 @@
 					</div>
 					</div>
 				</li>
+			{else}
+				<!-- Debug information: server {$srv.ip} is down. Remove it from database. -->
 			{/if}
 		{/foreach}
 		</ul>

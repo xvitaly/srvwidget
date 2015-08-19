@@ -188,9 +188,7 @@ class Application
 		try
 		{
 			self::getIPAddrList();
-			
 			$smarty -> assign('servers', self::buildServerList());
-			$smarty -> assign('hide', Settings::SHOWEMPTY);
 			$smarty -> display('page.tpl');
 		}
 		catch (Exception $ex)
