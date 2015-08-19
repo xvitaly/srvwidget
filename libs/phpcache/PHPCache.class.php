@@ -42,8 +42,10 @@ class Cache
 	
 	public function end()
 	{
-		file_put_contents($this -> cacheFile, ob_get_contents());
-		ob_end_flush();
+		$buf = str_replace(array("\t", "\n", "\r", "\r\n"), "", ob_get_contents());
+		file_put_contents($this -> cacheFile, $buf);
+		ob_end_clean();
+		echo $buf;
 	}
 }
 ?>
