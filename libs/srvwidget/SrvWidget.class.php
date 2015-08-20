@@ -188,13 +188,15 @@ class Application
 		try
 		{
 			self::getIPAddrList();
+			$smarty -> assign('pageid', 'list');
 			$smarty -> assign('servers', self::buildServerList());
 			$smarty -> display('page.tpl');
 		}
 		catch (Exception $ex)
 		{
+			$smarty -> assign('pageid', 'error');
 			$smarty -> assign('errmsg', $ex -> getMessage());
-			$smarty -> display('error.tpl');
+			$smarty -> display('page.tpl');
 		}
 	}
 }
