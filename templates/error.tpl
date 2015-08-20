@@ -3,6 +3,9 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Simple server widget by EasyCoding Team</title>
 	<link rel="stylesheet" href="static/widget.css" type="text/css" />
+	<script type="text/javascript" language="javascript" src="static/jquery.min.js"></script>
+	<script type="text/javascript" language="javascript" src="static/functions.js"></script>
+	<script type="text/javascript" language="javascript" src="static/jquery.jcarousellite.js"></script>
 </head>
 <body>
 	<div class="flexwr">
