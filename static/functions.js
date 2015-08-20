@@ -26,5 +26,5 @@ $(function() {
 });
 
 $(document).ready(function() {
-	setTimeout("pageReload()", 60000);
+	setTimeout("pageReload()", 150000);
 });
