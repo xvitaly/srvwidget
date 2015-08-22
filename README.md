@@ -36,3 +36,7 @@ PHP version 5.2+ with socket, mysqli and bcmath extensions. Requires full socket
 License
 ========
 Main code licensed under the terms of GNU General Public License version 3. You can find it here: https://www.gnu.org/licenses/gpl.html. External libraries can use another licenses, compatible with GNU GPLv3.
+
+Icons
+========
+Warning icon by Burak OZTURK. Map icons by Valve Corporation and Official TF2 Wiki contributors.
