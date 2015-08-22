@@ -31,7 +31,7 @@ INSERT INTO `servers` (`ID`, `ServerID`, `Comment`, `IsEnabled`) VALUES
 
 Requirements
 ========
-PHP version 5.2+ with socket, mysqli and bcmath extensions. Requires full socket support. May not work on shared hosting!
+PHP version 5.2+ with socket, mysqli and bcmath extensions. Requires full socket support. May not work on shared hostings!
 
 License
 ========
