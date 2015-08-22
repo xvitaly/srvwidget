@@ -40,3 +40,8 @@ Main code licensed under the terms of GNU General Public License version 3. You 
 Icons
 ========
 Warning icon by Burak OZTURK. Map icons by Valve Corporation and Official TF2 Wiki contributors.
+
+Dependencies
+========
+ * Smarty (LGPL license): http://www.smarty.net/
+ * PHP Source Query (GPLv2 license): https://github.com/xPaw/PHP-Source-Query
