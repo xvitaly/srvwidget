@@ -19,7 +19,11 @@ require_once('libs/srvwidget/Settings.class.php');
 require_once('libs/sourcequery/SourceQuery.class.php');
 require_once('libs/smarty/Smarty.class.php');
 require_once('libs/srvwidget/SrvWidget.class.php');
+require_once('libs/srvwidget/Locales.class.php');
 require_once('libs/phpcache/PHPCache.class.php');
+
+// Loading translations...
+Locales::setLocales(Settings::LOCALE);
 
 // Starting cache engine...
 $cache = new Cache;
