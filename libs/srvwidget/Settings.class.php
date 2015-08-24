@@ -33,5 +33,6 @@ class Settings
 	/*
 	 * Project settings.
 	 */
+	const LOCALE = 'ru_RU';
 	const SHOWLEGACY = false;
 }
