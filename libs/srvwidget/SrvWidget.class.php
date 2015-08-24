@@ -33,6 +33,14 @@ class Application
 		return $result;
 	}
 	
+	public function loadLocales($lang, $region)
+	{
+		putenv(sprintf("LANG=%s", $lang));
+		//setlocale(LC_ALL, "Russian");
+		bindtextdomain($region, "./locale");
+		textdomain($region);
+	}
+	
 	private function sendGETRequest($url, $useragent = 'wget')
 	{
 		$ch = curl_init();
@@ -179,8 +187,9 @@ class Application
 
 	public static function Run()
 	{
-		$smarty = new Smarty();
+		self::loadLocales(Settings::LOCALE, 'messages');
 		
+		$smarty = new Smarty();
 		$smarty -> setTemplateDir('templates');
 		$smarty -> setCacheDir(sys_get_temp_dir());
 		$smarty -> setCompileDir(sys_get_temp_dir());
