@@ -31,8 +31,17 @@ INSERT INTO `servers` (`ID`, `ServerID`, `Comment`, `IsEnabled`) VALUES
 
 Requirements
 ========
-PHP version 5.2+ with socket, mysqli and bcmath extensions. Requires full socket support. May not work on shared hosting!
+PHP version 5.2+ with socket, mysqli and bcmath extensions. Requires full socket support. May not work on shared hostings!
 
 License
 ========
 Main code licensed under the terms of GNU General Public License version 3. You can find it here: https://www.gnu.org/licenses/gpl.html. External libraries can use another licenses, compatible with GNU GPLv3.
+
+Icons
+========
+Warning icon by Burak OZTURK. Map icons by Valve Corporation and Official TF2 Wiki contributors.
+
+Dependencies
+========
+ * Smarty (LGPL license): http://www.smarty.net/
+ * PHP Source Query (GPLv2 license): https://github.com/xPaw/PHP-Source-Query
