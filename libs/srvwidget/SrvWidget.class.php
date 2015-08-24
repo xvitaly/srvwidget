@@ -33,7 +33,7 @@ class Application
 		return $result;
 	}
 	
-	public function loadLocales($lang, $region)
+	private function loadLocale($lang, $region)
 	{
 		putenv(sprintf("LANG=%s", $lang));
 		//setlocale(LC_ALL, "Russian");
@@ -187,7 +187,7 @@ class Application
 
 	public static function Run()
 	{
-		self::loadLocales(Settings::LOCALE, 'messages');
+		self::loadLocale(Settings::LOCALE, 'messages');
 		
 		$smarty = new Smarty();
 		$smarty -> setTemplateDir('templates');
