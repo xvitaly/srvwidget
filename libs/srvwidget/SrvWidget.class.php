@@ -47,10 +47,10 @@ class Application
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$result = curl_exec($ch);
 		$hcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-		if ($hcode != 200) { throw new Exception('Steam API is down.'); }
+		if ($hcode != 200) { throw new Exception(_("Steam API is down.")); }
 		$hsize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
 		$headers = self::parseHeaders(mb_substr($result, 0, $hsize));
-		if (!isset($headers['X-Eresult']) || ($headers['X-Eresult'] != '1')) { throw new Exception('Steam API returned incorrect values.'); }
+		if (!isset($headers['X-Eresult']) || ($headers['X-Eresult'] != '1')) { throw new Exception(_("Steam API returned incorrect values.")); }
 		curl_close($ch);
 		return mb_substr($result, $hsize);
 	}
@@ -71,7 +71,7 @@ class Application
 	private function startDBConnection()
 	{
 		self::$mlink = new mysqli(Settings::DB_HOST, Settings::DB_USER, Settings::DB_PASS, Settings::DB_NAME);
-		if (!mysqli_connect_errno()) { self::$mlink -> set_charset("utf8"); } else { throw new Exception('No database connection.'); }
+		if (!mysqli_connect_errno()) { self::$mlink -> set_charset("utf8"); } else { throw new Exception(_("No database connection.")); }
 	}
 	
 	private function closeDBConnection()
@@ -120,7 +120,7 @@ class Application
 	
 	private function optimizeServerDB()
 	{
-		if (count(self::$SERVERS) > 0) { shuffle(self::$SERVERS); } else { throw new Exception('Empty server database. Import dump or fill it manually.'); }
+		if (count(self::$SERVERS) > 0) { shuffle(self::$SERVERS); } else { throw new Exception(_("Empty server database. Import dump or fill it manually.")); }
 	}
 	
 	private function cleanSrvTitle($title)
@@ -164,7 +164,7 @@ class Application
 	{
 		$srvs = array();
 		foreach (self::$SERVERS as $value) { $srvs[] = self::returnServerInfo($value); }
-		if (empty($srvs)) { throw new Exception('No servers responded to our queries.'); }
+		if (empty($srvs)) { throw new Exception(_("No servers responded to our queries.")); }
 		return $srvs;
 	}
 	
