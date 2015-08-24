@@ -23,7 +23,7 @@ require_once('libs/srvwidget/Locales.class.php');
 require_once('libs/phpcache/PHPCache.class.php');
 
 // Loading translations...
-Locales::setLocales(Settings::LOCALE);
+Locales::loadLocales(Settings::LOCALE);
 
 // Starting cache engine...
 $cache = new Cache;
