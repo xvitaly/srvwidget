@@ -36,7 +36,7 @@ class Application
 	private function loadLocale($lang, $region)
 	{
 		putenv(sprintf("LANG=%s", $lang));
-		//setlocale(LC_ALL, "Russian");
+		setlocale(LC_ALL, sprintf("%s.UTF-8", $lang));
 		bindtextdomain($region, "./locale");
 		textdomain($region);
 	}
