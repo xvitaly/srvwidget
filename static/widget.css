@@ -19,6 +19,8 @@ left:0;
 
 .flexpg {
 margin:auto;
+text-align:center;
+width:10em;
 }
 
 .info {
@@ -66,7 +68,7 @@ white-space:nowrap;
 }
 
 .wmessage {
-width:75%;
+display:block;
 }
 
 a,a:visited {
