@@ -19,6 +19,7 @@ DROP TABLE IF EXISTS `legacy`;
 CREATE TABLE IF NOT EXISTS `legacy` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `IP` text NOT NULL,
+  `Comment` text NOT NULL,
   `IsEnabled` tinyint(1) NOT NULL,
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Legacy table for Source Engine Web Widget' AUTO_INCREMENT=1 ;
