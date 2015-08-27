@@ -193,6 +193,7 @@ class Application
 		$smarty -> setTemplateDir('templates');
 		$smarty -> setCacheDir(sys_get_temp_dir());
 		$smarty -> setCompileDir(sys_get_temp_dir());
+		$smarty -> escape_html = true;
 		
 		try
 		{
