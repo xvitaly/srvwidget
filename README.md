@@ -8,7 +8,7 @@ PHP version 5.2+ with socket, mysqli and bcmath extensions. Requires full socket
 
 Installation
 ========
-See INSTALLATION.md file.
+See [INSTALLATION.md](https://github.com/xvitaly/srvwidget/blob/master/INSTALLATION.md) file.
 
 License
 ========
