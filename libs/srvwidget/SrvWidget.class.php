@@ -107,7 +107,7 @@ class Application
 		{
 			while ($row = $stm -> fetch_row())
 			{
-				self::$SERVERS = $row[0];
+				self::$SERVERS[] = $row[0];
 			}
 		}
 	}
