@@ -15,6 +15,14 @@ CREATE TABLE IF NOT EXISTS `servers` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Servers table for Source Engine Web Widget' AUTO_INCREMENT=12 ;
 
+DROP TABLE IF EXISTS `legacy`;
+CREATE TABLE IF NOT EXISTS `legacy` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `IP` text NOT NULL,
+  `IsEnabled` tinyint(1) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Legacy table for Source Engine Web Widget' AUTO_INCREMENT=1 ;
+
 INSERT INTO `servers` (`ID`, `ServerID`, `Comment`, `IsEnabled`) VALUES
 (1, '85568392920040184', 'ALTFS #2 (dustbowl, goldrush, badwater)', 1),
 (2, '85568392920040185', 'ALTFS #3 (dustbowl)', 1),
