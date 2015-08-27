@@ -6,6 +6,10 @@ Requirements
 ========
 PHP version 5.2+ with socket, mysqli and bcmath extensions. Requires full socket support. May not work on shared hostings!
 
+Installation
+========
+See INSTALLATION.md file.
+
 License
 ========
 Main code licensed under the terms of GNU General Public License version 3. You can find it here: https://www.gnu.org/licenses/gpl.html. External libraries can use another licenses, compatible with GNU GPLv3.
