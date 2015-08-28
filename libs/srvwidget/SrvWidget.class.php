@@ -109,6 +109,7 @@ class Application
 			{
 				self::$SERVERS[] = $row[0];
 			}
+			$stm -> close();
 		}
 	}
 	
