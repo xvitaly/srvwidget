@@ -15,12 +15,12 @@
 
 class Application
 {	
-	private static $SERVERS = array();
+	private static $SERVERS = [];
 	private static $mlink;
 	
 	private function parseHeaders($header)
 	{
-		$result = array();
+		$result = [];
 		$fields = explode("\r\n", preg_replace('/\x0D\x0A[\x09\x20]+/', ' ', $header));
 		foreach($fields as $field)
 		{
@@ -89,7 +89,7 @@ class Application
 
 	private function fetchServersDB()
 	{
-		$srvids = array();
+		$srvids = [];
 		if ($stm = self::$mlink -> query("SELECT ServerID FROM servers WHERE IsEnabled = '1' ORDER BY ID ASC LIMIT 0,30"))
 		{
 			while ($row = $stm -> fetch_row())
@@ -142,7 +142,7 @@ class Application
 	{
 		$srv = explode(':', $ip);
 		$q = new SourceQuery();
-		$r = array();
+		$r = [];
 		
 		try
 		{
@@ -170,7 +170,7 @@ class Application
 	
 	private function buildServerList()
 	{
-		$srvs = array();
+		$srvs = [];
 		foreach (self::$SERVERS as $value) { $srvs[] = self::returnServerInfo($value); }
 		if (empty($srvs)) { throw new Exception(_("No servers responded to our queries.")); }
 		return $srvs;
