@@ -2,6 +2,8 @@ About
 ========
 Source Engine Web Widget - simple sidebar widget with list of featured TF2 game servers for blogs and forums.
 
+Release: **2.0-rel**.
+
 Requirements
 ========
 PHP version 5.2+ with socket, mysqli and bcmath extensions. Requires full socket support. May not work on shared hostings!
