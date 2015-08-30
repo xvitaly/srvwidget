@@ -2,7 +2,7 @@ About
 ========
 Source Engine Web Widget - simple sidebar widget with list of featured TF2 game servers for blogs and forums.
 
-Release: **2.0-rel**.
+Release: **master-dev**.
 
 Requirements
 ========
