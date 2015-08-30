@@ -5,7 +5,7 @@ Installation
 2. Open ```/libs/srvwidget/Settings.class.php``` and set MySQL username, password, database name and Steam Web API token.
 
 3. Import this SQL dump file:
-```
+```sql
 DROP TABLE IF EXISTS `servers`;
 CREATE TABLE IF NOT EXISTS `servers` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
