@@ -31,7 +31,7 @@ msgid "Steam API has returned incorrect values."
 msgstr "Steam API вернул неправильные значения."
 
 #: SrvWidget.class.php:77
-msgid "Steam API has returned empty response.."
+msgid "Steam API has returned empty response."
 msgstr "Steam API вернул пустой результат."
 
 #: SrvWidget.class.php:83
