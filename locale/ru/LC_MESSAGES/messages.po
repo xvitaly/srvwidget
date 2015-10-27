@@ -30,6 +30,10 @@ msgstr "Серверы Steam API недоступны."
 msgid "Steam API returned incorrect values."
 msgstr "Steam API вернул неправильные значения."
 
+#: SrvWidget.class.php:77
+msgid "Steam API has returned empty response.."
+msgstr "Steam API вернул пустой результат."
+
 #: SrvWidget.class.php:83
 msgid "No database connection."
 msgstr "Нет соединения с базой данных!"
