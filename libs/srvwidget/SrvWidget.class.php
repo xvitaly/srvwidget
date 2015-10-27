@@ -67,13 +67,14 @@ class Application
 	{
 		$req = array('key' => Settings::STEAM_TOKEN, 'format' => 'xml', 'server_steamids' => $a);
 		$xml = simplexml_load_string(self::sendGETRequest(sprintf('%s?%s', Settings::STEAM_URI, http_build_query($req))));
-		if (is_object($xml))
+		if (is_object($xml) && is_object($xml -> servers))
 		{
 			foreach($xml -> servers -> message as $item)
 			{
 				self::$SERVERS[] = $item -> addr;
 			}
 		}
+		else { throw new Exception(_("Steam API has returned empty response.")); }
 	}
 	
 	private function startDBConnection()
