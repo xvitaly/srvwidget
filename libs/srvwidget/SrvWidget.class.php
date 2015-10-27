@@ -58,7 +58,7 @@ class Application
 		if ($hcode != 200) { throw new Exception(_("Steam API is down.")); }
 		$hsize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
 		$headers = self::parseHeaders(mb_substr($result, 0, $hsize));
-		if (!isset($headers['X-Eresult']) || ($headers['X-Eresult'] != '1')) { throw new Exception(_("Steam API returned incorrect values.")); }
+		if (!isset($headers['X-Eresult']) || ($headers['X-Eresult'] != '1')) { throw new Exception(_("Steam API has returned incorrect values.")); }
 		curl_close($ch);
 		return mb_substr($result, $hsize);
 	}

@@ -27,7 +27,7 @@ msgid "Steam API is down."
 msgstr "Серверы Steam API недоступны."
 
 #: SrvWidget.class.php:61
-msgid "Steam API returned incorrect values."
+msgid "Steam API has returned incorrect values."
 msgstr "Steam API вернул неправильные значения."
 
 #: SrvWidget.class.php:77
