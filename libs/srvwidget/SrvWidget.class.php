@@ -140,8 +140,7 @@ class Application
 
 	private function cleanSrvTitle($title)
 	{
-		$title = str_replace(array("#", "|", "::"), array(" #", " | ", " : "), self::sanitizeString($title));
-		return mb_strtoupper(mb_substr($title, 0, 19));
+		return mb_strtoupper(mb_substr(str_replace(array("#", "|", "::"), array(" #", " | ", " : "), self::sanitizeString($title)), 0, 19));
 	}
 	
 	private function returnServerInfo($ip)
