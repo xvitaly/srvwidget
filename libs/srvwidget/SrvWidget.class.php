@@ -135,12 +135,12 @@ class Application
 	
 	private function sanitizeString($str)
 	{
-		return str_replace(array(" ", "_", "?", "\r\n", "\r", "\n", "\t"), "", preg_replace('/[^[:print:]]/', '', $str));
+		return trim(preg_replace('/[^[:print:]]/', '', $str));
 	}
 
 	private function cleanSrvTitle($title)
 	{
-		return mb_strtoupper(mb_substr(str_replace(array("#", "|", "::"), array(" #", " | ", " : "), self::sanitizeString($title)), 0, 19));
+		return mb_strtoupper(mb_substr(str_replace(array("#", "|", "::"), array(" #", " | ", " : "), str_replace(array(" ", "_", "?", "\r\n", "\r", "\n", "\t"), "", self::sanitizeString($title))), 0, 19));
 	}
 	
 	private function returnServerInfo($ip)
@@ -157,7 +157,7 @@ class Application
 			$r['ip'] = sprintf('%s:%d', $srv[0], $srv[1]);
 			$r['map'] = substr($srvinfo['Map'], 0, 15);
 			$r['mapimg'] = self::checkMapImage($srvinfo['Map']);
-			$r['fullname'] = $srvinfo['HostName'];
+			$r['fullname'] = self::sanitizeString($srvinfo['HostName']);
 			$r['hostname'] = self::cleanSrvTitle($srvinfo['HostName']);
 			$r['cplayers'] = $srvinfo['Players'];
 			$r['maxplayers'] = $srvinfo['MaxPlayers'];
