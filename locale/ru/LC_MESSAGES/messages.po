@@ -44,6 +44,6 @@ msgstr ""
 "База данных серверов пуста. Импортируйте дамп или заполните её "
 "самостоятельно."
 
-#: SrvWidget.class.php:177
+#: SrvWidget.class.php:180
 msgid "No servers responded to our queries."
 msgstr "Ни один сервер не ответил на наши запросы."
