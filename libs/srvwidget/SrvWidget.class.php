@@ -135,7 +135,7 @@ class Application
 	
 	private function sanitizeString($str)
 	{
-		return trim(preg_replace('/[^[:print:]]/', '', $str));
+		return trim(preg_replace('/[\x00-\x1F\x80-\x9F]/u', '', $str));
 	}
 
 	private function cleanSrvTitle($title)
