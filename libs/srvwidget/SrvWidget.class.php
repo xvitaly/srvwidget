@@ -133,10 +133,14 @@ class Application
 		if (count(self::$SERVERS) > 0) { shuffle(self::$SERVERS); } else { throw new Exception(_("Empty server database. Import dump or fill it manually.")); }
 	}
 	
+	private function sanitizeString($str)
+	{
+		return str_replace(array(" ", "_", "?", "\r\n", "\r", "\n", "\t"), "", preg_replace('/[^[:print:]]/', '', $str));
+	}
+
 	private function cleanSrvTitle($title)
 	{
-		$title = str_replace(array(" ", "_", "?", "\r\n", "\r", "\n", "\t"), "", $title);
-		$title = str_replace(array("#", "|", "::"), array(" #", " | ", " : "), $title);
+		$title = str_replace(array("#", "|", "::"), array(" #", " | ", " : "), self::sanitizeString($title));
 		return mb_strtoupper(mb_substr($title, 0, 19));
 	}
 	
