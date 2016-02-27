@@ -22,5 +22,5 @@ Warning icon by Burak OZTURK. Map icons by Valve Corporation and Official TF2 Wi
 
 Dependencies
 ========
- * Smarty (LGPL license): http://www.smarty.net/
- * PHP Source Query (GPLv2 license): https://github.com/xPaw/PHP-Source-Query
+ * [Smarty](http://www.smarty.net/) (LGPL license);
+ * [PHP Source Query](https://github.com/xPaw/PHP-Source-Query) (GPLv2 license).
