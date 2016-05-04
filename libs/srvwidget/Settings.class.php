@@ -35,4 +35,5 @@ class Settings
 	 */
 	const LOCALE = 'ru_RU';
 	const SHOWLEGACY = false;
+	const RANDOMIZE = true;
 }
