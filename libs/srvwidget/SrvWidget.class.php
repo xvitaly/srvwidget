@@ -130,7 +130,7 @@ class Application
 	
 	private function optimizeServerDB()
 	{
-		if (count(self::$SERVERS) > 0) { shuffle(self::$SERVERS); } else { throw new Exception(_("Empty server database. Import dump or fill it manually.")); }
+		if (count(self::$SERVERS) > 0) { if (Settings::RANDOMIZE) { shuffle(self::$SERVERS); } } else { throw new Exception(_("Empty server database. Import dump or fill it manually.")); }
 	}
 	
 	private function sanitizeString($str)
