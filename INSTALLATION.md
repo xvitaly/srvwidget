@@ -2,7 +2,7 @@ Installation
 ========
 1. Upload all files from this repository to your web server.
 
-2. Open ```/libs/srvwidget/Settings.class.php``` and set MySQL username, password, database name and Steam Web API token.
+2. Open ```libs/srvwidget/Settings.class.php``` and set MySQL username, password, database name and Steam Web API token.
 
 3. Import this SQL dump file:
 ```sql
