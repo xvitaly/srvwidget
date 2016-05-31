@@ -18,7 +18,7 @@ Main code licensed under the terms of GNU General Public License version 3. You 
 
 Icons
 ========
-Warning icon by Burak OZTURK. Map icons by Valve Corporation and Official TF2 Wiki contributors.
+Warning icon by [Burak OZTURK](http://www.iconspedia.com/icon/warning-1260-.html). Map icons by [Valve Corporation](http://valvesoftware.com/) and [Official TF2 Wiki](https://wiki.teamfortress.com/wiki/Main_Page) contributors.
 
 Dependencies
 ========
