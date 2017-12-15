@@ -1,2 +1,4 @@
 /nbproject/private/
 *.mo
+/composer.lock
+/vendor
