@@ -1,4 +1,9 @@
 {
+    "autoload": {
+        "classmap": [
+            "core"
+        ]
+    },
     "require": {
         "xpaw/php-source-query-class": "^1.0",
         "smarty/smarty": "^3.1"

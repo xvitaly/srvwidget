@@ -12,6 +12,8 @@
  * 
  */
 
+namespace SrvWidget;
+
 class Cache
 {
 	const PAGE_TIME = 600;

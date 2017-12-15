@@ -16,13 +16,6 @@
 // Use Composer's autoloader...
 require_once('vendor/autoload.php');
 
-// Connecting settings storage...
-require_once('core/srvwidget/Settings.class.php');
-
-// Connecting libraries...
-require_once('core/srvwidget/SrvWidget.class.php');
-require_once('core/phpcache/PHPCache.class.php');
-
 // Starting cache engine...
 $cache = new Cache;
 $cache -> start();

@@ -13,6 +13,8 @@
  * 
  */
 
+namespace SrvWidget;
+
 class Application
 {	
 	private static $SERVERS = [];
