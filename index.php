@@ -17,11 +17,11 @@
 require_once('vendor/autoload.php');
 
 // Connecting settings storage...
-require_once('libs/srvwidget/Settings.class.php');
+require_once('core/srvwidget/Settings.class.php');
 
 // Connecting libraries...
-require_once('libs/srvwidget/SrvWidget.class.php');
-require_once('libs/phpcache/PHPCache.class.php');
+require_once('core/srvwidget/SrvWidget.class.php');
+require_once('core/phpcache/PHPCache.class.php');
 
 // Starting cache engine...
 $cache = new Cache;
