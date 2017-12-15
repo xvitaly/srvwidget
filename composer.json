@@ -1,0 +1,5 @@
+{
+    "require": {
+        "xpaw/php-source-query-class": "^1.0"
+    }
+}
