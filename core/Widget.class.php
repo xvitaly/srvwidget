@@ -15,6 +15,9 @@
 
 namespace SrvWidget;
 
+use Smarty;
+use xPaw\SourceQuery\SourceQuery;
+
 class Application
 {	
 	private static $SERVERS = [];
