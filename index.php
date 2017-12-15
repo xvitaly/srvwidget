@@ -12,12 +12,14 @@
  * 
  */
 
+
+// Use Composer's autoloader...
+require_once('vendor/autoload.php');
+
 // Connecting settings storage...
 require_once('libs/srvwidget/Settings.class.php');
 
 // Connecting libraries...
-require_once('libs/sourcequery/SourceQuery.class.php');
-require_once('libs/smarty/Smarty.class.php');
 require_once('libs/srvwidget/SrvWidget.class.php');
 require_once('libs/phpcache/PHPCache.class.php');
 
