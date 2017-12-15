@@ -12,6 +12,7 @@
  * 
  */
 
+namespace SrvWidget;
 
 // Use Composer's autoloader...
 require_once('vendor/autoload.php');
