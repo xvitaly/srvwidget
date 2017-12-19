@@ -22,28 +22,28 @@ msgstr ""
 "Language: ru\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: SrvWidget.class.php:58
+#: core/Widget.class.php:58
 msgid "Steam API is down."
 msgstr "Серверы Steam API недоступны."
 
-#: SrvWidget.class.php:61
+#: core/Widget.class.php:61
 msgid "Steam API has returned incorrect values."
 msgstr "Steam API вернул неправильные значения."
 
-#: SrvWidget.class.php:77
+#: core/Widget.class.php:77
 msgid "Steam API has returned empty response."
 msgstr "Steam API вернул пустой результат."
 
-#: SrvWidget.class.php:83
+#: core/Widget.class.php:83
 msgid "No database connection."
 msgstr "Нет соединения с базой данных!"
 
-#: SrvWidget.class.php:133
+#: core/Widget.class.php:133
 msgid "Empty server database. Import dump or fill it manually."
 msgstr ""
 "База данных серверов пуста. Импортируйте дамп или заполните её "
 "самостоятельно."
 
-#: SrvWidget.class.php:180
+#: core/Widget.class.php:180
 msgid "No servers responded to our queries."
 msgstr "Ни один сервер не ответил на наши запросы."
