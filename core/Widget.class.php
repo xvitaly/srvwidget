@@ -15,6 +15,8 @@
 
 namespace SrvWidget;
 
+use Exception;
+use mysqli;
 use Smarty;
 use xPaw\SourceQuery\SourceQuery;
 
