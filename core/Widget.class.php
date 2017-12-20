@@ -21,9 +21,9 @@ use xPaw\SourceQuery\SourceQuery;
 
 class Widget
 {	
-    private static $SERVERS = [];
+    private $srvint = [];
     private $srvlist = [];
-    private static $mlink;
+    private $mlink;
 
     private function parseHeaders($header)
     {
@@ -70,7 +70,7 @@ class Widget
         {
             foreach($xml -> servers -> message as $item)
             {
-                self::$SERVERS[] = $item -> addr;
+                $this -> srvint[] = $item -> addr;
             }
         }
         else { throw new Exception(_("Steam API has returned empty response.")); }
@@ -78,19 +78,19 @@ class Widget
 
     private function startDBConnection()
     {
-        self::$mlink = new mysqli(Settings::DB_HOST, Settings::DB_USER, Settings::DB_PASS, Settings::DB_NAME);
-        if (!mysqli_connect_errno()) { self::$mlink -> set_charset("utf8"); } else { throw new Exception(_("No database connection.")); }
+        $this -> mlink = new mysqli(Settings::DB_HOST, Settings::DB_USER, Settings::DB_PASS, Settings::DB_NAME);
+        if (!mysqli_connect_errno()) { $this -> mlink -> set_charset("utf8"); } else { throw new Exception(_("No database connection.")); }
     }
 
     private function closeDBConnection()
     {
-        if (!mysqli_connect_errno()) { self::$mlink -> close(); }
+        if (!mysqli_connect_errno()) { $this -> mlink -> close(); }
     }
 
     private function fetchServersDB()
     {
         $srvids = [];
-        if ($stm = self::$mlink -> query("SELECT ServerID FROM servers WHERE IsEnabled = '1' ORDER BY ID ASC LIMIT 0,30"))
+        if ($stm = $this -> mlink -> query("SELECT ServerID FROM servers WHERE IsEnabled = '1' ORDER BY ID ASC LIMIT 0,30"))
         {
             while ($row = $stm -> fetch_row())
             {
@@ -103,11 +103,11 @@ class Widget
 
     private function getLegacyServerIPs()
     {
-        if ($stm = self::$mlink -> query("SELECT IP FROM legacy WHERE IsEnabled = '1' ORDER BY ID ASC LIMIT 0,30"))
+        if ($stm = $this -> mlink -> query("SELECT IP FROM legacy WHERE IsEnabled = '1' ORDER BY ID ASC LIMIT 0,30"))
         {
             while ($row = $stm -> fetch_row())
             {
-                self::$SERVERS[] = $row[0];
+                $this -> srvint[] = $row[0];
             }
             $stm -> close();
         }
@@ -129,7 +129,7 @@ class Widget
 
     private function optimizeServerDB()
     {
-        if (count(self::$SERVERS) > 0) { if (Settings::RANDOMIZE) { shuffle(self::$SERVERS); } } else { throw new Exception(_("Empty server database. Import dump or fill it manually.")); }
+        if (count($this -> srvint) > 0) { if (Settings::RANDOMIZE) { shuffle($this -> srvint); } } else { throw new Exception(_("Empty server database. Import dump or fill it manually.")); }
     }
 
     private function sanitizeString($str)
@@ -181,10 +181,9 @@ class Widget
         self::optimizeServerDB();
     }
 
-
     private function buildServerList()
     {
-        foreach (self::$SERVERS as $value) { $this -> srvlist = self::returnServerInfo($value); }
+        foreach ($this -> srvint as $value) { $this -> srvlist = self::returnServerInfo($value); }
         if (empty($this -> srvlist)) { throw new Exception(_("No servers responded to our queries.")); }
     }
 
