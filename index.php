@@ -22,7 +22,7 @@ $cache = new Cache;
 $cache -> start();
 
 // Starting application...
-Application::Run();
+Widget::Run();
 
 // Stopping cache engine...
 $cache -> end();

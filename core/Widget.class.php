@@ -20,7 +20,7 @@ use mysqli;
 use Smarty;
 use xPaw\SourceQuery\SourceQuery;
 
-class Application
+class Widget
 {	
 	private static $SERVERS = [];
 	private static $mlink;
