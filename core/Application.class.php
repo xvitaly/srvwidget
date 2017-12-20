@@ -1,20 +1,22 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/* 
+ * Simple Source engine widget.
+ * 
+ * Copyright 2013 - 2015 EasyCoding Team (ECTeam).
+ * Copyright 2005 - 2015 EasyCoding Team.
+ * 
+ * License: GNU GPL version 3.
+ *
+ * EasyCoding Team's official blog: http://www.easycoding.org/
+ * Project's official webpage: http://www.easycoding.org/projects/srvwidget
+ * 
  */
 
 namespace SrvWidget;
 
 use Smarty;
 
-/**
- * Description of Application
- *
- * @author Vitaly
- */
 class Application
 {	
     private function loadLocale($lang, $region)
