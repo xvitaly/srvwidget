@@ -17,13 +17,13 @@ namespace SrvWidget;
 
 use Exception;
 use mysqli;
-use Smarty;
 use xPaw\SourceQuery\SourceQuery;
 
 class Widget
 {	
 	private static $SERVERS = [];
-	private static $mlink;
+        private $srvlist = [];
+        private static $mlink;
 	
 	private function parseHeaders($header)
 	{
@@ -38,14 +38,6 @@ class Widget
 			}
 		}
 		return $result;
-	}
-	
-	private function loadLocale($lang, $region)
-	{
-		putenv(sprintf("LANG=%s", $lang));
-		setlocale(LC_ALL, sprintf("%s.UTF-8", $lang));
-		bindtextdomain($region, "./locale");
-		textdomain($region);
 	}
 	
 	private function sendGETRequest($url, $useragent = 'wget')
@@ -180,14 +172,6 @@ class Widget
 		return $r;
 	}
 	
-	private function buildServerList()
-	{
-		$srvs = [];
-		foreach (self::$SERVERS as $value) { $srvs[] = self::returnServerInfo($value); }
-		if (empty($srvs)) { throw new Exception(_("No servers responded to our queries.")); }
-		return $srvs;
-	}
-	
 	private function getIPAddrList()
 	{
 		self::startDBConnection();
@@ -196,31 +180,24 @@ class Widget
 		self::closeDBConnection();
 		self::optimizeServerDB();
 	}
-
-	public static function Run()
+        
+        	
+	private function buildServerList()
 	{
-		self::loadLocale(Settings::LOCALE, 'messages');
-		
-		$smarty = new Smarty();
-		$smarty -> setTemplateDir('templates');
-		$smarty -> setCacheDir(sys_get_temp_dir());
-		$smarty -> setCompileDir(sys_get_temp_dir());
-		$smarty -> escape_html = true;
-		
-		try
-		{
-			self::getIPAddrList();
-			$smarty -> assign('pageid', 'list');
-			$smarty -> assign('servers', self::buildServerList());
-			$smarty -> display('page.tpl');
-		}
-		catch (Exception $ex)
-		{
-			$smarty -> assign('pageid', 'error');
-			$smarty -> assign('errmsg', $ex -> getMessage());
-			$smarty -> display('page.tpl');
-		}
+		foreach (self::$SERVERS as $value) { $this -> srvlist = self::returnServerInfo($value); }
+		if (empty($this -> srvlist)) { throw new Exception(_("No servers responded to our queries.")); }
 	}
+        
+        public function getServers()
+        {
+            return $this -> srvlist;
+        }
+
+        public function __construct()
+        {
+            self::getIPAddrList();
+            self::buildServerList();
+        }
 }
 
 ?>
