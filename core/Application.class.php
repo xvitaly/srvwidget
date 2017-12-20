@@ -15,6 +15,7 @@
 
 namespace SrvWidget;
 
+use Exception;
 use Smarty;
 
 class Application
@@ -39,16 +40,16 @@ class Application
 
         try
         {
-                $widget = new Widget();
-                $smarty -> assign('pageid', 'list');
-                $smarty -> assign('servers', $widget -> getServers());
-                $smarty -> display('page.tpl');
+            $widget = new Widget();
+            $smarty -> assign('pageid', 'list');
+            $smarty -> assign('servers', $widget -> getServers());
+            $smarty -> display('page.tpl');
         }
         catch (Exception $ex)
         {
-                $smarty -> assign('pageid', 'error');
-                $smarty -> assign('errmsg', $ex -> getMessage());
-                $smarty -> display('page.tpl');
+            $smarty -> assign('pageid', 'error');
+            $smarty -> assign('errmsg', $ex -> getMessage());
+            $smarty -> display('page.tpl');
         }
     }
 }
