@@ -17,14 +17,8 @@ namespace SrvWidget;
 // Use Composer's autoloader...
 require_once('vendor/autoload.php');
 
-// Starting cache engine...
-$cache = new Cache;
-$cache -> start();
-
 // Starting application...
-Application::Run();
-
-// Stopping cache engine...
-$cache -> end();
+$app = new Application();
+$app -> run();
 
 ?>

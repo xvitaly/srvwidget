@@ -20,6 +20,9 @@ use Smarty;
 
 class Application
 {	
+    private $cache;
+    private $smarty;
+    
     private function loadLocale($lang, $region)
     {
         putenv(sprintf("LANG=%s", $lang));
@@ -28,29 +31,46 @@ class Application
         textdomain($region);
     }
     
-    public static function Run()
+    private function setSmarty($cdir)
     {
-        self::loadLocale(Settings::LOCALE, 'messages');
+        $this -> smarty -> setTemplateDir('templates');
+        $this -> smarty -> setCacheDir($cdir);
+        $this -> smarty -> setCompileDir($cdir);
+        $this -> smarty -> escape_html = true;
+    }
 
-        $smarty = new Smarty();
-        $smarty -> setTemplateDir('templates');
-        $smarty -> setCacheDir(sys_get_temp_dir());
-        $smarty -> setCompileDir(sys_get_temp_dir());
-        $smarty -> escape_html = true;
 
+    private function showWidget()
+    {
         try
         {
             $widget = new Widget();
-            $smarty -> assign('pageid', 'list');
-            $smarty -> assign('servers', $widget -> getServers());
-            $smarty -> display('page.tpl');
+            $this -> smarty -> assign('pageid', 'list');
+            $this -> smarty -> assign('servers', $widget -> getServers());
+            $this -> smarty -> display('page.tpl');
         }
         catch (Exception $ex)
         {
-            $smarty -> assign('pageid', 'error');
-            $smarty -> assign('errmsg', $ex -> getMessage());
-            $smarty -> display('page.tpl');
+            $this -> smarty -> assign('pageid', 'error');
+            $this -> smarty -> assign('errmsg', $ex -> getMessage());
+            $this -> smarty -> display('page.tpl');
         }
+    }
+    
+    public function run()
+    {
+        $this -> cache -> start();
+        $this -> showWidget();
+        $this -> cache -> end();
+    }
+
+    public function __construct()
+    {
+        $this -> cache = new Cache();
+        $this -> smarty = new Smarty();
+        
+        $this -> loadLocale(Settings::LOCALE, 'messages');
+        $this -> setSmarty(sys_get_temp_dir());
     }
 }
 
