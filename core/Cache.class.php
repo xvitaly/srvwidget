@@ -28,9 +28,9 @@ class Cache
     const PAGE_TIME = 600;
     private $cacheFile;
 
-    public function __construct()
+    public function __construct($cache)
     {
-        $this -> cacheFile = sprintf('%s/%s.dat', sys_get_temp_dir(), hash('md5', $_SERVER['REQUEST_URI']));
+        $this -> cacheFile = join(DIRECTORY_SEPARATOR, array($cache, sprintf('%s.dat', hash('md5', filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_SPECIAL_CHARS)))));
     }
 
     public function start()
