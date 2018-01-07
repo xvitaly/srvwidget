@@ -28,6 +28,7 @@ use Smarty;
 
 class Application
 {	
+    private $cdir;
     private $cache;
     private $smarty;
     
@@ -39,11 +40,11 @@ class Application
         textdomain($region);
     }
     
-    private function setSmarty($cdir)
+    private function setSmarty()
     {
         $this -> smarty -> setTemplateDir('templates');
-        $this -> smarty -> setCacheDir($cdir);
-        $this -> smarty -> setCompileDir($cdir);
+        $this -> smarty -> setCacheDir($this -> cdir);
+        $this -> smarty -> setCompileDir($this -> cdir);
         $this -> smarty -> escape_html = true;
     }
 
@@ -74,11 +75,12 @@ class Application
 
     public function __construct()
     {
-        $this -> cache = new Cache();
+        $this -> cdir = join(DIRECTORY_SEPARATOR, array(sys_get_temp_dir(), 'srvwidget'));
+        $this -> cache = new Cache($this -> cdir);
         $this -> smarty = new Smarty();
         
         $this -> loadLocale(Settings::LOCALE, 'messages');
-        $this -> setSmarty(sys_get_temp_dir());
+        $this -> setSmarty();
     }
 }
 
