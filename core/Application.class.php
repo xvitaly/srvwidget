@@ -75,7 +75,7 @@ class Application
 
     public function __construct()
     {
-        $this -> cdir = join(DIRECTORY_SEPARATOR, array(sys_get_temp_dir(), 'srvwidget'));
+        $this -> cdir = join(DIRECTORY_SEPARATOR, array(sys_get_temp_dir(), Settings::CACHEDIR));
         $this -> cache = new Cache($this -> cdir);
         $this -> smarty = new Smarty();
         

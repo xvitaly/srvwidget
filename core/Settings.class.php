@@ -43,6 +43,7 @@ class Settings
     /*
      * Project settings.
      */
+    const CACHEDIR = 'srvwidget';
     const LOCALE = 'ru_RU';
     const SHOWLEGACY = false;
     const RANDOMIZE = true;
