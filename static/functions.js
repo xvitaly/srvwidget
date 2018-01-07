@@ -1,14 +1,22 @@
-/* 
- * Simple Source engine widget - main JS.
+/*
+ * This file is a part of Simple Source engine widget. For more information
+ * visit official site: https://www.easycoding.org/projects/srvwidget
  * 
- * Copyright 2013 - 2015 EasyCoding Team (ECTeam).
- * Copyright 2005 - 2015 EasyCoding Team.
+ * Copyright (c) 2013 - 2018 EasyCoding Team (ECTeam).
+ * Copyright (c) 2005 - 2018 EasyCoding Team.
  * 
- * License: GNU GPL version 3.
- *
- * EasyCoding Team's official blog: http://www.easycoding.org/
- * Project's official webpage: http://www.easycoding.org/projects/srvwidget
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 function pageReload() {
