@@ -191,7 +191,7 @@ class Widget
 
     private function buildServerList()
     {
-        foreach ($this -> srvint as $value) { $this -> srvlist = self::returnServerInfo($value); }
+        foreach ($this -> srvint as $value) { $this -> srvlist[] = self::returnServerInfo($value); }
         if (empty($this -> srvlist)) { throw new Exception(_("No servers responded to our queries.")); }
     }
 
