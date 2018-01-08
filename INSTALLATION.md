@@ -5,7 +5,7 @@ Installation
 git clone --depth=1 https://github.com/xvitaly/srvwidget.git
 ```
 
-2. Install dependencies using Composer:
+2. Install dependencies using [Composer](https://getcomposer.org/):
 ```bash
 composer install
 ```
