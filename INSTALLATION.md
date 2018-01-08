@@ -1,10 +1,23 @@
 Installation
 ========
-1. Upload all files from this repository to your web server.
+1. Clone repository on server:
+```bash
+git clone --depth=1 https://github.com/xvitaly/srvwidget.git
+```
 
-2. Open ```libs/srvwidget/Settings.class.php``` and set MySQL username, password, database name and Steam Web API token.
+2. Install dependencies using Composer:
+```bash
+composer install
+```
 
-3. Import this SQL dump file:
+3. Update autoloader scripts:
+```bash
+composer dump-autoload -o
+```
+
+4. Open `core/Settings.class.php` file in any text editor and set MySQL username, password, database name and Steam Web API token.
+
+5. Import this sample SQL dump file:
 ```sql
 DROP TABLE IF EXISTS `servers`;
 CREATE TABLE IF NOT EXISTS `servers` (
