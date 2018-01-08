@@ -10,11 +10,11 @@ PHP version 5.2+ with socket, mysqli and bcmath extensions. Requires full socket
 
 Installation
 ========
-See [INSTALLATION.md](https://github.com/xvitaly/srvwidget/blob/master/INSTALLATION.md) file.
+See [INSTALLATION.md](INSTALLATION.md) file.
 
 License
 ========
-Main code licensed under the terms of GNU General Public License version 3. You can find it here: https://www.gnu.org/licenses/gpl.html. External libraries can use another licenses, compatible with GNU GPLv3.
+Main code licensed under the terms of GNU General Public License version 3. You can find it [here](COPYING). External libraries can use another licenses, compatible with GNU GPLv3.
 
 Icons
 ========
