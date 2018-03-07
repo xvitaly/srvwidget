@@ -25,6 +25,7 @@ namespace SrvWidget;
 
 use Exception;
 use mysqli;
+use Curl\Curl;
 use xPaw\SourceQuery\SourceQuery;
 
 class Widget
@@ -32,42 +33,14 @@ class Widget
     private $srvint = [];
     private $srvlist = [];
     private $mlink;
-
-    private function parseHeaders($header)
-    {
-        $result = [];
-        $fields = explode("\r\n", preg_replace('/\x0D\x0A[\x09\x20]+/', ' ', $header));
-        foreach($fields as $field)
-        {
-            if (preg_match('/([^:]+): (.+)/m', $field, $match))
-            {
-                $match[1] = preg_replace('/(?<=^|[\x09\x20\x2D])./e', 'mb_strtoupper("\0")', mb_strtolower(trim($match[1])));
-                $result[$match[1]] = isset($result[$match[1]]) ? array($result[$match[1]], $match[2]) : trim($match[2]);
-            }
-        }
-        return $result;
-    }
 	
     private function sendGETRequest($url, $useragent = 'wget')
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 4);
-        curl_setopt($ch, CURLOPT_MAXREDIRS, 1);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_HEADER, true);
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_REFERER, $url);
-        curl_setopt($ch, CURLOPT_USERAGENT, $useragent);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $result = curl_exec($ch);
-        $hcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        if ($hcode != 200) { throw new Exception(_("Steam API is down.")); }
-        $hsize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
-        $headers = self::parseHeaders(mb_substr($result, 0, $hsize));
-        if (!isset($headers['X-Eresult']) || ($headers['X-Eresult'] != '1')) { throw new Exception(_("Steam API has returned incorrect values.")); }
-        curl_close($ch);
-        return mb_substr($result, $hsize);
+        $curl = new Curl();
+        $curl -> get($url);
+        if ($curl -> httpStatusCode != 200) { throw new Exception(_("Steam API is down.")); }
+        if (!isset($curl -> responseHeaders['X-Eresult']) || ($curl->responseHeaders['X-Eresult'] != '1')) { throw new Exception(_("Steam API has returned incorrect values.")); }
+        return $curl -> rawResponse;
     }
 
     private function resolveServersIPs($a)
