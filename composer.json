@@ -6,6 +6,7 @@
     },
     "require": {
         "xpaw/php-source-query-class": "^1.0",
-        "smarty/smarty": "^3.1"
+        "smarty/smarty": "^3.1",
+        "php-curl-class/php-curl-class": "^8.0"
     }
 }
