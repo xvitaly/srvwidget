@@ -38,15 +38,16 @@ class Widget
     {
         $curl = new Curl();
         $curl -> get($url);
+        if ($curl -> error) { throw new Exception(_("Steam API fetch error.")); }
         if ($curl -> httpStatusCode != 200) { throw new Exception(_("Steam API is down.")); }
         if (!isset($curl -> responseHeaders['X-Eresult']) || ($curl->responseHeaders['X-Eresult'] != '1')) { throw new Exception(_("Steam API has returned incorrect values.")); }
-        return $curl -> rawResponse;
+        return $curl -> response;
     }
 
     private function resolveServersIPs($a)
     {
         $req = array('key' => Settings::STEAM_TOKEN, 'format' => 'xml', 'server_steamids' => $a);
-        $xml = simplexml_load_string(self::sendGETRequest(sprintf('%s?%s', Settings::STEAM_URI, http_build_query($req))));
+        $xml = self::sendGETRequest(sprintf('%s?%s', Settings::STEAM_URI, http_build_query($req)));
         if (is_object($xml) && is_object($xml -> servers))
         {
             foreach($xml -> servers -> message as $item)
