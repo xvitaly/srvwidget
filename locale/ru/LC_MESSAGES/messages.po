@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: srvwidget\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-08 17:51+0100\n"
-"PO-Revision-Date: 2018-01-08 17:51+0100\n"
+"POT-Creation-Date: 2018-03-07 18:26+0100\n"
+"PO-Revision-Date: 2018-03-07 18:27+0100\n"
 "Last-Translator: Vitaly Zaitsev <vitaly@easycoding.org>\n"
 "Language-Team: EasyCoding Team <vitaly@easycoding.org>\n"
 "Language: ru\n"
@@ -24,28 +24,32 @@ msgstr ""
 "X-Poedit-Basepath: ../../..\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: core/Widget.class.php:65
+#: core/Widget.class.php:41
+msgid "Steam API fetch error."
+msgstr "Получен некорректный ответ от Steam API."
+
+#: core/Widget.class.php:42
 msgid "Steam API is down."
 msgstr "Серверы Steam API недоступны."
 
-#: core/Widget.class.php:68
+#: core/Widget.class.php:43
 msgid "Steam API has returned incorrect values."
 msgstr "Steam API вернул неправильные значения."
 
-#: core/Widget.class.php:84
+#: core/Widget.class.php:58
 msgid "Steam API has returned empty response."
 msgstr "Steam API вернул пустой результат."
 
-#: core/Widget.class.php:90
+#: core/Widget.class.php:64
 msgid "No database connection."
 msgstr "Нет соединения с базой данных."
 
-#: core/Widget.class.php:140
+#: core/Widget.class.php:114
 msgid "Empty server database. Import dump or fill it manually."
 msgstr ""
 "База данных серверов пуста. Импортируйте дамп или заполните её "
 "самостоятельно."
 
-#: core/Widget.class.php:195
+#: core/Widget.class.php:169
 msgid "No servers responded to our queries."
 msgstr "Ни один сервер не ответил на наши запросы."
