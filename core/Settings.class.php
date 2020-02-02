@@ -4,8 +4,8 @@
  * This file is a part of Simple Source engine widget. For more information
  * visit official site: https://www.easycoding.org/projects/srvwidget
  * 
- * Copyright (c) 2013 - 2018 EasyCoding Team (ECTeam).
- * Copyright (c) 2005 - 2018 EasyCoding Team.
+ * Copyright (c) 2013 - 2020 EasyCoding Team (ECTeam).
+ * Copyright (c) 2005 - 2020 EasyCoding Team.
  * 
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
