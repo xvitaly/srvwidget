@@ -6,7 +6,7 @@ Release: **master-dev**.
 
 Requirements
 ========
-PHP version 5.2+ with socket, mysqli and bcmath extensions. Requires full socket support. May not work on shared hostings!
+PHP version 7.0+ with socket, mysqli and bcmath extensions. Requires full socket support. May not work on shared hostings!
 
 Installation
 ========
@@ -23,4 +23,5 @@ Warning icon by [Burak OZTURK](http://www.iconspedia.com/icon/warning-1260-.html
 Dependencies
 ========
  * [Smarty](http://www.smarty.net/) (LGPL license);
- * [PHP Source Query](https://github.com/xPaw/PHP-Source-Query) (GPLv2 license).
+ * [PHP Source Query](https://github.com/xPaw/PHP-Source-Query) (GPLv2 license);
+ * [PHP Curl Class](https://github.com/php-curl-class/php-curl-class) (Unlicense).
