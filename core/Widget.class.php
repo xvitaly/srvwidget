@@ -60,8 +60,9 @@ class Widget
 
     private function startDBConnection()
     {
+        mysqli_report(MYSQLI_REPORT_STRICT);
         $this -> mlink = new mysqli(Settings::DB_HOST, Settings::DB_USER, Settings::DB_PASS, Settings::DB_NAME);
-        if (!mysqli_connect_errno()) { $this -> mlink -> set_charset("utf8"); } else { throw new Exception(_("No database connection.")); }
+        $this -> mlink -> set_charset("utf8");
     }
 
     private function closeDBConnection()
