@@ -39,9 +39,22 @@ class Widget
         $curl = new Curl();
         $curl -> setUserAgent($useragent);
         $curl -> get($url);
-        if ($curl -> error) { throw new Exception(_("Steam API fetch error.")); }
-        if ($curl -> httpStatusCode != 200) { throw new Exception(_("Steam API is down.")); }
-        if (!isset($curl -> responseHeaders['X-Eresult']) || ($curl->responseHeaders['X-Eresult'] != '1')) { throw new Exception(_("Steam API has returned incorrect values.")); }
+
+        if ($curl -> error)
+        {
+            throw new Exception(_("Steam API fetch error."));
+        }
+
+        if ($curl -> httpStatusCode != 200)
+        {
+            throw new Exception(_("Steam API is down."));
+        }
+
+        if (!isset($curl -> responseHeaders['X-Eresult']) || ($curl->responseHeaders['X-Eresult'] != '1'))
+        {
+            throw new Exception(_("Steam API has returned incorrect values."));
+        }
+
         return $curl -> response;
     }
 
@@ -56,7 +69,10 @@ class Widget
                 $this -> srvint[] = $item -> addr;
             }
         }
-        else { throw new Exception(_("Steam API has returned empty response.")); }
+        else
+        {
+            throw new Exception(_("Steam API has returned empty response."));
+        }
     }
 
     private function startDBConnection()
@@ -68,7 +84,10 @@ class Widget
 
     private function closeDBConnection()
     {
-        if (!mysqli_connect_errno()) { $this -> mlink -> close(); }
+        if (!mysqli_connect_errno())
+        {
+            $this -> mlink -> close();
+        }
     }
 
     private function fetchServersDB()
@@ -107,13 +126,30 @@ class Widget
     {
         $result = '#006900';
         $del = $mpl != 0 ? $cpl / $mpl : 0;
-        if ($del >= 0.9) { $result = '#FF0000'; } elseif (($del > 0.78) && ($del < 0.9)) { $result = '#f4c430'; }
+        if ($del >= 0.9)
+        {
+            $result = '#FF0000';
+        }
+        elseif (($del > 0.78) && ($del < 0.9))
+        {
+            $result = '#f4c430';
+        }
         return $result;
     }
 
     private function optimizeServerDB()
     {
-        if (count($this -> srvint) > 0) { if (Settings::RANDOMIZE) { shuffle($this -> srvint); } } else { throw new Exception(_("Empty server database. Import dump or fill it manually.")); }
+        if (count($this -> srvint) > 0)
+        {
+            if (Settings::RANDOMIZE)
+            {
+                shuffle($this -> srvint);
+            }
+        }
+        else
+        {
+            throw new Exception(_("Empty server database. Import dump or fill it manually."));
+        }
     }
 
     private function sanitizeString($str)
@@ -160,15 +196,25 @@ class Widget
     {
         self::startDBConnection();
         self::resolveServersIPs(self::fetchServersDB());
-        if (Settings::SHOWLEGACY) { self::getLegacyServerIPs(); }
+        if (Settings::SHOWLEGACY)
+        {
+            self::getLegacyServerIPs();
+        }
         self::closeDBConnection();
         self::optimizeServerDB();
     }
 
     private function buildServerList()
     {
-        foreach ($this -> srvint as $value) { $this -> srvlist[] = self::returnServerInfo($value); }
-        if (empty($this -> srvlist)) { throw new Exception(_("No servers responded to our queries.")); }
+        foreach ($this -> srvint as $value)
+        {
+            $this -> srvlist[] = self::returnServerInfo($value);
+        }
+
+        if (empty($this -> srvlist))
+        {
+            throw new Exception(_("No servers responded to our queries."));
+        }
     }
 
     public function getServers()
