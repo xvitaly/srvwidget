@@ -37,6 +37,7 @@ class Widget
     private function sendGETRequest($url, $useragent = 'wget')
     {
         $curl = new Curl();
+        $curl -> setUserAgent($useragent);
         $curl -> get($url);
         if ($curl -> error) { throw new Exception(_("Steam API fetch error.")); }
         if ($curl -> httpStatusCode != 200) { throw new Exception(_("Steam API is down.")); }
